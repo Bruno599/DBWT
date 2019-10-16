@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="de" xmlns:margin-top="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Start.html</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="css/design.css" rel="stylesheet">
+</head>
+<body>
+<header>
+    <div class="container border-bottom border-dark ">
+        <div class="row align-items-baseline">
+            <div class="col-3 text-nowrap">
+                <h1 class="fh_color">e-Mensa</h1>
+            </div>
+            <div class="col-1 text-center ">
+                <a>Start</a>
+            </div>
+            <div class="col-1 border-left border-dark text-center ">
+                <a>Mahlzeit</a>
+            </div>
+            <div class="col-1 border-left border-dark text-center ">
+                <a>Bestellung</a>
+            </div>
+            <div class="col-1 border-left border-dark text-center text-nowrap ">
+                <a>FH-Aachen</a>
+            </div>
+            <div class="col text-right ">
+                <form action="http://www.google.de/search" target="_blank" >
+
+                    <input type="search" name="q" placeholder="Suche">
+                    <input type="hidden" name="as_sitesearch" value="http://www.fh-aachen.de">
+                    <input type="hidden" name="as_dt=*">
+
+                    <button>search</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- #00b5ad  Farbcode der Links-->
+
+<div class="container">
+    <div class="row m-4">
+        <div class="col text-center">
+            <h2 >Verfügbare Speisen (Bestseller)</h2>
+        </div>
+    </div>
+    <div class="row m-2">
+        <div class="col-2 border m-2 border-dark">
+           <form action="">
+               <fieldset class="">
+                   <legend class="text-nowrap text-hide">Speisenliste filter</legend>
+                   <p class="on_line text-center">Speisenliste filter</p>
+
+                   <input type="search" list="kategorien" class="w-100 mb-5 mt-5 " placeholder="Kategorien">
+                   <datalist id="kategorien">
+                       <option value="Tagesmenü">
+                       <option value="Classiker">
+                       <option value="Pizza">
+                   </datalist>
+
+                   <input type="checkbox" class="m-2 "> nur verfügbar
+                   <input type="checkbox" class="m-2"> nur vegetarisch
+                   <input type="checkbox" class="m-2"> nur vegan
+
+                   <button type="button" class="mt-5 ">Speisen filtern</button>
+               </fieldset>
+
+           </form>
+        </div>
+        <div class="col">
+            <div class="row text-center">
+                <div class="col m-2 ">
+                    <img src="pictures/platzhalter_essen.jpg">
+                </div>
+                <div class="col m-2">
+                    <img src="pictures/platzhalter_essen.jpg">
+                </div>
+                <div class="col m-2">
+                    <img src="pictures/platzhalter_essen.jpg">
+                </div>
+                <div class="col m-2">
+                    <img src="pictures/platzhalter_essen.jpg">
+                </div>
+
+            </div>
+            <div class="row text-center">
+                <div class="col ">
+                    Curry Wok <br>
+                    <a href="" class="fh_color"> Details</a>
+                </div>
+                <div class="col ">
+                    Schnitzel <br>
+                    <a href="" class="fh_color"> Details</a>
+                </div>
+                <div class="col ">
+                    Bratrolle <br>
+                    <a href="" class="fh_color"> Details</a>
+                </div>
+                <div class="col ">
+                    Krautsalat <br>
+                    <a href="" class="fh_color"> Details</a>
+                </div>
+
+            </div>
+            <div class="row text-center">
+                <div class="col m-2">
+                    <img src="pictures/platzhalter_essen.jpg">
+                </div>
+                <div class="col m-2">
+                    <img src="pictures/platzhalter_essen.jpg">
+                </div>
+                <div class="col m-2">
+                    <img src="pictures/platzhalter_essen.jpg">
+                </div>
+                <div class="col m-2">
+                    <img src="pictures/platzhalter_essen.jpg">
+                </div>
+
+            </div>
+            <div class="row text-center">
+                <div class="col ">
+                    Falafel <br>
+                    <a href="" class="fh_color"> Details</a>
+                </div>
+                <div class="col ">
+                    Currywurst <br>
+                    <a href="" class="fh_color"> Details</a>
+                </div>
+                <div class="col ">
+                    Käsestulle <br>
+                    <a href="" class="fh_color"> Details</a>
+                </div>
+                <div class="col ">
+                    Spiegelei <br>
+                    <a href="" class="fh_color"> Details</a>
+                </div>
+
+            </div>
+        </div>
+        <div class="col-1">
+            <!-- nur zum einrücken -->
+        </div>
+
+    </div>
+</div>
+
+
+<footer>
+    <div class="container border-top border-dark">
+        <div class="row align-items-center mw-100">
+            <div class="col">
+                (c) 2017 DBWT
+            </div>
+            <div class="col-1  text-center">
+                Login
+            </div>
+            <div class="col-2 border-left border-dark text-center">
+                Registrieren
+            </div>
+            <div class="col-2 border-left border-dark text-center">
+                Zutatenliste
+            </div>
+            <div class="col-1 border-left border-dark text-center">
+                Impressum
+            </div>
+            <div class="col">
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
