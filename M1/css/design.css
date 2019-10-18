@@ -8,3 +8,25 @@
     background-color: #ffffff;
 
 }
+#picture1_centre_start
+{
+    height: 300px;
+    width: 100%;
+}
+
+#picture_centre_details
+{
+    height: 300px;
+    width: 760px;
+}
+
+.tab_content_size
+{
+    width: 760px;
+    height: 150px;
+}
+
+.text_next_to_tab
+{
+    height: 200px
+}
