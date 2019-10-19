@@ -2,6 +2,10 @@
 {
     color: #00b5ad;
 }
+a:hover
+{
+    color: #00b5ad;
+}
 .on_line
 {
     margin-top: -20px;
@@ -14,8 +18,11 @@
     height: 300px;
     width: 100%;
 }
-
-
+#body_produkte
+{
+    width: 805px;
+    height: 430px;
+}
 .text_next_to_tab
 {
     height: 200px
@@ -27,4 +34,16 @@
 .symbol{
     height: 30px;
     width: 30px;
+}
+#searchBar {
+    background-image: url("../button/svgs/solid/search.svg");
+    background-repeat: no-repeat;
+    background-position: 5px 5px;
+    background-color: white;
+    background-size: 20px 20px;
+    padding-left: 30px;
+}
+
+.passdout{
+    filter: opacity(25%);
 }

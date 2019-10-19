@@ -39,6 +39,11 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="settings.editor.selected.configurable" value="configurable.group.language" />
   </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\DBWT\M1" />
+    </key>
+  </component>
   <component name="RunDashboard">
     <option name="ruleStates">
       <list>
@@ -68,7 +73,7 @@
       <workItem from="1571379584464" duration="847000" />
       <workItem from="1571387078856" duration="2883000" />
       <workItem from="1571394893481" duration="3108000" />
-      <workItem from="1571410732525" duration="19410000" />
+      <workItem from="1571410732525" duration="31567000" />
     </task>
     <servers />
   </component>
