@@ -27,11 +27,11 @@
                 </div>
                 <div class="col-5 text-right text-nowrap mb-2 ">
                     <form action="http://www.google.de/search" target="_blank" method="get">
-
-                        <input class="rounded" type="search" name="q" placeholder="Suche" id="searchBar">
-                        <input type="hidden" name="as_sitesearch" value="http://www.fh-aachen.de">
-
-                        <button class="rounded">search</button>
+                        <div class="text-right border float-right rounded">
+                            <button class="rounded p-0 border-0 mr-0"><i id="searchBar"></i></button>
+                            <input class="rounded ml-0 border-0" type="search" name="q" placeholder="Suche">
+                            <input type="hidden" name="as_sitesearch" value="http://www.fh-aachen.de">
+                        </div>
                     </form>
                 </div>
             </div>
