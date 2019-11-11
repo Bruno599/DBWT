@@ -1339,11 +1339,14 @@
       <Position>2</Position>
       <DataType>varchar(254)|0s</DataType>
       <NotNull>1</NotNull>
+      <DefaultExpression>&apos;Max.Mustermann@fh-aachen.de&apos;</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="351" parent="328" name="Bild">
       <Position>3</Position>
-      <DataType>varbinary(1000)|0s</DataType>
+      <DataType>mediumblob|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>0x00</DefaultExpression>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="352" parent="328" name="Nutzername">
@@ -1389,7 +1392,6 @@
     <column id="359" parent="328" name="Geburtsdatum">
       <Position>11</Position>
       <DataType>date|0s</DataType>
-      <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
     <column id="360" parent="328" name="Alter">
@@ -1398,581 +1400,626 @@
       <DefaultExpression>(to_days(curdate()) - to_days(`Geburtsdatum`)) / 365</DefaultExpression>
       <ColumnKind>generated-virtual</ColumnKind>
     </column>
-    <key id="361" parent="328" name="PRIMARY">
+    <index id="361" parent="328" name="UN_EMail">
+      <ColNames>E-Mail</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <index id="362" parent="328" name="UN_Nutzername">
+      <ColNames>Nutzername</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="363" parent="328" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Nummer</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="362" parent="329" name="BenutzerNummer1">
+    <key id="364" parent="328" name="UN_EMail">
+      <ColNames>E-Mail</ColNames>
+      <UnderlyingIndexName>UN_EMail</UnderlyingIndexName>
+    </key>
+    <key id="365" parent="328" name="UN_Nutzername">
+      <ColNames>Nutzername</ColNames>
+      <UnderlyingIndexName>UN_Nutzername</UnderlyingIndexName>
+    </key>
+    <column id="366" parent="329" name="BenutzerNummer1">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="363" parent="329" name="BenutzerNUmmer2">
+    <column id="367" parent="329" name="BenutzerNUmmer2">
       <Position>2</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="364" parent="329" name="FK_BenutzerBefreundetMItBenutzer_1">
+    <index id="368" parent="329" name="FK_BenutzerBefreundetMItBenutzer_1">
       <ColNames>BenutzerNummer1</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="365" parent="329" name="FK_BenutzerBefreundetMItBenutzer_2">
+    <index id="369" parent="329" name="FK_BenutzerBefreundetMItBenutzer_2">
       <ColNames>BenutzerNUmmer2</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="366" parent="329" name="FK_BenutzerBefreundetMItBenutzer_1">
+    <foreign-key id="370" parent="329" name="FK_BenutzerBefreundetMItBenutzer_1">
       <ColNames>BenutzerNummer1</ColNames>
       <RefTableName>Benutzer</RefTableName>
       <RefColNames>Nummer</RefColNames>
     </foreign-key>
-    <foreign-key id="367" parent="329" name="FK_BenutzerBefreundetMItBenutzer_2">
+    <foreign-key id="371" parent="329" name="FK_BenutzerBefreundetMItBenutzer_2">
       <ColNames>BenutzerNUmmer2</ColNames>
       <RefTableName>Benutzer</RefTableName>
       <RefColNames>Nummer</RefColNames>
     </foreign-key>
-    <column id="368" parent="330" name="Abholzeitpunkt">
+    <column id="372" parent="330" name="Abholzeitpunkt">
       <Position>1</Position>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="369" parent="330" name="Bestellzeitpunkt">
+    <column id="373" parent="330" name="Bestellzeitpunkt">
       <Position>2</Position>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="370" parent="330" name="Nummer">
+    <column id="374" parent="330" name="Nummer">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="371" parent="330" name="Endpreis">
+    <column id="375" parent="330" name="Endpreis">
       <Position>4</Position>
       <DataType>decimal(4,2 digit)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="372" parent="330" name="BenutzerNr">
+    <column id="376" parent="330" name="BenutzerNr">
       <Position>5</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="373" parent="330" name="getaetigtVon">
+    <column id="377" parent="330" name="getaetigtVon">
       <Position>6</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="374" parent="330" name="FK_BestellungBenutzer">
+    <index id="378" parent="330" name="FK_BestellungBenutzer">
       <ColNames>getaetigtVon</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="375" parent="330" name="PRIMARY">
+    <key id="379" parent="330" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Nummer</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="376" parent="330" name="FK_BestellungBenutzer">
+    <foreign-key id="380" parent="330" name="FK_BestellungBenutzer">
       <ColNames>getaetigtVon</ColNames>
       <RefTableName>Benutzer</RefTableName>
       <RefColNames>Nummer</RefColNames>
     </foreign-key>
-    <column id="377" parent="331" name="Nummer">
+    <column id="381" parent="331" name="Nummer">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="378" parent="331" name="ID">
+    <column id="382" parent="331" name="ID">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="379" parent="331" name="Anzahl">
+    <column id="383" parent="331" name="Anzahl">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="380" parent="331" name="FK_BestellungEnthältMahlzeiten_Bestellung">
+    <index id="384" parent="331" name="FK_BestellungEnthältMahlzeiten_Bestellung">
       <ColNames>Nummer</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="381" parent="331" name="FK_BestellungEnthältMahlzeiten_Mahlzeiten">
+    <index id="385" parent="331" name="FK_BestellungEnthältMahlzeiten_Mahlzeiten">
       <ColNames>ID</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="382" parent="331" name="FK_BestellungEnthältMahlzeiten_Bestellung">
+    <foreign-key id="386" parent="331" name="FK_BestellungEnthältMahlzeiten_Bestellung">
       <ColNames>Nummer</ColNames>
       <RefTableName>Bestellung</RefTableName>
       <RefColNames>Nummer</RefColNames>
     </foreign-key>
-    <foreign-key id="383" parent="331" name="FK_BestellungEnthältMahlzeiten_Mahlzeiten">
+    <foreign-key id="387" parent="331" name="FK_BestellungEnthältMahlzeiten_Mahlzeiten">
       <ColNames>ID</ColNames>
       <RefTableName>Mahlzeiten</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <column id="384" parent="332" name="ID">
+    <column id="388" parent="332" name="ID">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="385" parent="332" name="Alt-Text">
+    <column id="389" parent="332" name="Alt-Text">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="386" parent="332" name="Title">
+    <column id="390" parent="332" name="Title">
       <Position>3</Position>
       <DataType>varchar(50)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="387" parent="332" name="Binärdaten">
+    <column id="391" parent="332" name="Binärdaten">
       <Position>4</Position>
       <DataType>mediumblob|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="388" parent="332" name="PRIMARY">
+    <key id="392" parent="332" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="389" parent="333" name="Zeichen">
+    <column id="393" parent="333" name="Zeichen">
       <Position>1</Position>
       <DataType>char(1)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="390" parent="333" name="Beschriftung">
+    <column id="394" parent="333" name="Beschriftung">
       <Position>2</Position>
       <DataType>varchar(254)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="391" parent="333" name="PRIMARY">
+    <key id="395" parent="333" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Zeichen</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="392" parent="334" name="Nummer">
+    <column id="396" parent="334" name="Nummer">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="393" parent="334" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
+    <index id="397" parent="334" name="FK_FhAngehörigeNummerOfBenutzer">
       <ColNames>Nummer</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="394" parent="335" name="Website">
+      <Type>btree</Type>
+    </index>
+    <foreign-key id="398" parent="334" name="FK_FhAngehörigeNummerOfBenutzer">
+      <ColNames>Nummer</ColNames>
+      <RefTableName>Benutzer</RefTableName>
+      <RefColNames>Nummer</RefColNames>
+    </foreign-key>
+    <column id="399" parent="335" name="Website">
       <Position>1</Position>
       <DataType>varchar(100)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="395" parent="335" name="Name">
+    <column id="400" parent="335" name="Name">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="396" parent="335" name="ID">
+    <column id="401" parent="335" name="ID">
       <Position>3</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="397" parent="335" name="PRIMARY">
+    <key id="402" parent="335" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="398" parent="336" name="ID">
+    <column id="403" parent="336" name="ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="399" parent="336" name="Nummer">
+    <column id="404" parent="336" name="Nummer">
       <Position>2</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="400" parent="336" name="FK_FbGehörtZuFhAngehörige_Fachbereich">
+    <index id="405" parent="336" name="FK_FbGehörtZuFhAngehörige_Fachbereich">
       <ColNames>ID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="401" parent="336" name="FK_FbGehörtZuFhAngehörige_FhAngehörige">
+    <index id="406" parent="336" name="FK_FbGehörtZuFhAngehörige_FhAngehörige">
       <ColNames>Nummer</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="402" parent="336" name="FK_FbGehörtZuFhAngehörige_Fachbereich">
+    <foreign-key id="407" parent="336" name="FK_FbGehörtZuFhAngehörige_Fachbereich">
       <ColNames>ID</ColNames>
       <RefTableName>Fachbereich</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <foreign-key id="403" parent="336" name="FK_FbGehörtZuFhAngehörige_FhAngehörige">
+    <foreign-key id="408" parent="336" name="FK_FbGehörtZuFhAngehörige_FhAngehörige">
       <ColNames>Nummer</ColNames>
       <RefTableName>FH Angehörige</RefTableName>
       <RefColNames>Nummer</RefColNames>
     </foreign-key>
-    <column id="404" parent="337" name="Nummer">
+    <column id="409" parent="337" name="Nummer">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
-      <NotNull>1</NotNull>
-      <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="405" parent="337" name="Grund">
+    <column id="410" parent="337" name="Grund">
       <Position>2</Position>
       <DataType>varchar(254)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="406" parent="337" name="Ablaufdatum">
+    <column id="411" parent="337" name="Ablaufdatum">
       <Position>3</Position>
       <DataType>datetime|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="407" parent="337" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
+    <index id="412" parent="337" name="FK_GästeNummerOfBenutzer">
       <ColNames>Nummer</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="408" parent="338" name="ID">
+      <Type>btree</Type>
+    </index>
+    <foreign-key id="413" parent="337" name="FK_GästeNummerOfBenutzer">
+      <ColNames>Nummer</ColNames>
+      <RefTableName>Benutzer</RefTableName>
+      <RefColNames>Nummer</RefColNames>
+    </foreign-key>
+    <column id="414" parent="338" name="ID">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="409" parent="338" name="Bezeichnung">
+    <column id="415" parent="338" name="Bezeichnung">
       <Position>2</Position>
       <DataType>varchar(100)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="410" parent="338" name="hatKategorie">
+    <column id="416" parent="338" name="hatKategorie">
       <Position>3</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="411" parent="338" name="hatBilder">
+    <column id="417" parent="338" name="hatBilder">
       <Position>4</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="412" parent="338" name="FK_KategorienHatKategorien">
+    <index id="418" parent="338" name="FK_KategorienHatKategorien">
       <ColNames>hatKategorie</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="413" parent="338" name="FK_KategorienHatBilder">
+    <index id="419" parent="338" name="FK_KategorienHatBilder">
       <ColNames>hatBilder</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="414" parent="338" name="PRIMARY">
+    <key id="420" parent="338" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="415" parent="338" name="FK_KategorienHatKategorien">
+    <foreign-key id="421" parent="338" name="FK_KategorienHatKategorien">
       <ColNames>hatKategorie</ColNames>
       <RefTableName>Kategorien</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <foreign-key id="416" parent="338" name="FK_KategorienHatBilder">
+    <foreign-key id="422" parent="338" name="FK_KategorienHatBilder">
       <ColNames>hatBilder</ColNames>
       <RefTableName>Bilder</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <column id="417" parent="339" name="ID">
+    <column id="423" parent="339" name="ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="418" parent="339" name="Bemerkung">
+    <column id="424" parent="339" name="Bemerkung">
       <Position>2</Position>
       <DataType>varchar(254)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="419" parent="339" name="Bewertung">
+    <column id="425" parent="339" name="Bewertung">
       <Position>3</Position>
       <DataType>int(1)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="420" parent="339" name="GeschriebenVon">
+    <column id="426" parent="339" name="GeschriebenVon">
       <Position>4</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="421" parent="339" name="GehörtZu">
+    <column id="427" parent="339" name="GehörtZu">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="422" parent="339" name="FK_KommentareGeschriebenVonStudenten">
+    <index id="428" parent="339" name="FK_KommentareGeschriebenVonStudenten">
       <ColNames>GeschriebenVon</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="423" parent="339" name="FK_KommentareZuMahlzeiten">
+    <index id="429" parent="339" name="FK_KommentareZuMahlzeiten">
       <ColNames>GehörtZu</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="424" parent="339" name="PRIMARY">
+    <key id="430" parent="339" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="425" parent="339" name="FK_KommentareGeschriebenVonStudenten">
+    <foreign-key id="431" parent="339" name="FK_KommentareGeschriebenVonStudenten">
       <ColNames>GeschriebenVon</ColNames>
       <RefTableName>Studenten</RefTableName>
       <RefColNames>Nummer</RefColNames>
     </foreign-key>
-    <foreign-key id="426" parent="339" name="FK_KommentareZuMahlzeiten">
+    <foreign-key id="432" parent="339" name="FK_KommentareZuMahlzeiten">
       <ColNames>GehörtZu</ColNames>
       <RefTableName>Mahlzeiten</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <column id="427" parent="340" name="ID">
+    <column id="433" parent="340" name="ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="428" parent="340" name="Zeichen">
+    <column id="434" parent="340" name="Zeichen">
       <Position>2</Position>
       <DataType>char(1)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="429" parent="340" name="FK_MahlzeitBrauchtDejklaration_Mahlzeiten">
+    <index id="435" parent="340" name="FK_MahlzeitBrauchtDejklaration_Mahlzeiten">
       <ColNames>ID</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="430" parent="340" name="FK_MahlzeitBrauchtDejklaration_Deklarationen">
+    <index id="436" parent="340" name="FK_MahlzeitBrauchtDejklaration_Deklarationen">
       <ColNames>Zeichen</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="431" parent="340" name="FK_MahlzeitBrauchtDejklaration_Mahlzeiten">
+    <foreign-key id="437" parent="340" name="FK_MahlzeitBrauchtDejklaration_Mahlzeiten">
       <ColNames>ID</ColNames>
       <RefTableName>Mahlzeiten</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <foreign-key id="432" parent="340" name="FK_MahlzeitBrauchtDejklaration_Deklarationen">
+    <foreign-key id="438" parent="340" name="FK_MahlzeitBrauchtDejklaration_Deklarationen">
       <ColNames>Zeichen</ColNames>
       <RefTableName>Deklarationen</RefTableName>
       <RefColNames>Zeichen</RefColNames>
     </foreign-key>
-    <column id="433" parent="341" name="ID">
+    <column id="439" parent="341" name="ID">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="434" parent="341" name="Beschreibung">
+    <column id="440" parent="341" name="Beschreibung">
       <Position>2</Position>
       <DataType>text|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="435" parent="341" name="Vorrat">
+    <column id="441" parent="341" name="Vorrat">
       <Position>3</Position>
       <DataType>int(3)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="436" parent="341" name="Verfügbar">
+    <column id="442" parent="341" name="Verfügbar">
       <Position>4</Position>
       <DataType>tinyint(1)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="437" parent="341" name="inKategorie">
+    <column id="443" parent="341" name="inKategorie">
       <Position>5</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="438" parent="341" name="FK_MahlzeitenInKategorien">
+    <index id="444" parent="341" name="FK_MahlzeitenInKategorien">
       <ColNames>inKategorie</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="439" parent="341" name="PRIMARY">
+    <key id="445" parent="341" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <foreign-key id="440" parent="341" name="FK_MahlzeitenInKategorien">
+    <foreign-key id="446" parent="341" name="FK_MahlzeitenInKategorien">
       <ColNames>inKategorie</ColNames>
       <RefTableName>Kategorien</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <column id="441" parent="342" name="ID_M">
+    <column id="447" parent="342" name="ID_M">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="442" parent="342" name="ID_Z">
+    <column id="448" parent="342" name="ID_Z">
       <Position>2</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="443" parent="342" name="FK_MahlzeitenEnthaltenZutaten_Mahlzeiten">
+    <index id="449" parent="342" name="FK_MahlzeitenEnthaltenZutaten_Mahlzeiten">
       <ColNames>ID_M</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="444" parent="342" name="FK_MahlzeitenEnthaltenZutaten_Zutaten">
+    <index id="450" parent="342" name="FK_MahlzeitenEnthaltenZutaten_Zutaten">
       <ColNames>ID_Z</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="445" parent="342" name="FK_MahlzeitenEnthaltenZutaten_Mahlzeiten">
+    <foreign-key id="451" parent="342" name="FK_MahlzeitenEnthaltenZutaten_Mahlzeiten">
       <ColNames>ID_M</ColNames>
       <RefTableName>Mahlzeiten</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <foreign-key id="446" parent="342" name="FK_MahlzeitenEnthaltenZutaten_Zutaten">
+    <foreign-key id="452" parent="342" name="FK_MahlzeitenEnthaltenZutaten_Zutaten">
       <ColNames>ID_Z</ColNames>
       <RefTableName>Zutaten</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <column id="447" parent="343" name="ID_M">
+    <column id="453" parent="343" name="ID_M">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="448" parent="343" name="ID_B">
+    <column id="454" parent="343" name="ID_B">
       <Position>2</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="449" parent="343" name="FK_MahlzeitenHabenBilder_Mahlzeiten">
+    <index id="455" parent="343" name="FK_MahlzeitenHabenBilder_Mahlzeiten">
       <ColNames>ID_M</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="450" parent="343" name="FK_MahlzeitenHabenBilder_Bilder">
+    <index id="456" parent="343" name="FK_MahlzeitenHabenBilder_Bilder">
       <ColNames>ID_B</ColNames>
       <Type>btree</Type>
     </index>
-    <foreign-key id="451" parent="343" name="FK_MahlzeitenHabenBilder_Mahlzeiten">
+    <foreign-key id="457" parent="343" name="FK_MahlzeitenHabenBilder_Mahlzeiten">
       <ColNames>ID_M</ColNames>
       <RefTableName>Mahlzeiten</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <foreign-key id="452" parent="343" name="FK_MahlzeitenHabenBilder_Bilder">
+    <foreign-key id="458" parent="343" name="FK_MahlzeitenHabenBilder_Bilder">
       <ColNames>ID_B</ColNames>
       <RefTableName>Bilder</RefTableName>
       <RefColNames>ID</RefColNames>
     </foreign-key>
-    <column id="453" parent="344" name="Nummer">
+    <column id="459" parent="344" name="Nummer">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="454" parent="344" name="Büro">
+    <column id="460" parent="344" name="Büro">
       <Position>2</Position>
       <DataType>varchar(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="455" parent="344" name="Telefon">
+    <column id="461" parent="344" name="Telefon">
       <Position>3</Position>
       <DataType>int(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="456" parent="344" name="PRIMARY">
-      <NameSurrogate>1</NameSurrogate>
+    <index id="462" parent="344" name="FK_MitarbeiterNummerOfBenutzer">
       <ColNames>Nummer</ColNames>
-      <Primary>1</Primary>
-    </key>
-    <column id="457" parent="345" name="Jahr">
+      <Type>btree</Type>
+    </index>
+    <foreign-key id="463" parent="344" name="FK_MitarbeiterNummerOfBenutzer">
+      <ColNames>Nummer</ColNames>
+      <RefTableName>FH Angehörige</RefTableName>
+      <RefColNames>Nummer</RefColNames>
+    </foreign-key>
+    <column id="464" parent="345" name="Jahr">
       <Position>1</Position>
       <DataType>int(4)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="458" parent="345" name="Gastpreis">
+    <column id="465" parent="345" name="Gastpreis">
       <Position>2</Position>
       <DataType>decimal(4,2 digit)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="459" parent="345" name="Studentpreis">
+    <column id="466" parent="345" name="Studentpreis">
       <Position>3</Position>
       <DataType>decimal(4,2 digit)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="460" parent="345" name="MA-Preis">
+    <column id="467" parent="345" name="MA-Preis">
       <Position>4</Position>
       <DataType>decimal(4,2 digit)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="461" parent="346" name="Nummer">
+    <column id="468" parent="346" name="Nummer">
       <Position>1</Position>
       <DataType>int(10) unsigned|0s</DataType>
       <NotNull>1</NotNull>
       <SequenceIdentity>1</SequenceIdentity>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="462" parent="346" name="Studiengang">
+    <column id="469" parent="346" name="Studiengang">
       <Position>2</Position>
       <DataType>varchar(3)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="463" parent="346" name="Matrikelnummer">
+    <column id="470" parent="346" name="Matrikelnummer">
       <Position>3</Position>
       <DataType>int(9)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="464" parent="346" name="MatrikelNrEindeutig">
+    <index id="471" parent="346" name="MatrikelNrEindeutig">
       <ColNames>Matrikelnummer</ColNames>
       <Unique>1</Unique>
       <Type>btree</Type>
     </index>
-    <key id="465" parent="346" name="PRIMARY">
+    <index id="472" parent="346" name="UN_Matrikelnummer">
+      <ColNames>Matrikelnummer</ColNames>
+      <Unique>1</Unique>
+      <Type>btree</Type>
+    </index>
+    <key id="473" parent="346" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>Nummer</ColNames>
       <Primary>1</Primary>
     </key>
-    <key id="466" parent="346" name="MatrikelNrEindeutig">
+    <key id="474" parent="346" name="MatrikelNrEindeutig">
       <ColNames>Matrikelnummer</ColNames>
       <UnderlyingIndexName>MatrikelNrEindeutig</UnderlyingIndexName>
     </key>
-    <column id="467" parent="347" name="ID">
+    <key id="475" parent="346" name="UN_Matrikelnummer">
+      <ColNames>Matrikelnummer</ColNames>
+      <UnderlyingIndexName>UN_Matrikelnummer</UnderlyingIndexName>
+    </key>
+    <foreign-key id="476" parent="346" name="FK_StudentNummerOfBenutzer">
+      <ColNames>Nummer</ColNames>
+      <RefTableName>FH Angehörige</RefTableName>
+      <RefColNames>Nummer</RefColNames>
+    </foreign-key>
+    <check id="477" parent="346" name="Ch_Values">
+      <Predicate>`Studiengang` = &apos;ET&apos; or `Studiengang` = &apos;INF&apos; or `Studiengang` =</Predicate>
+    </check>
+    <column id="478" parent="347" name="ID">
       <Position>1</Position>
       <DataType>int(5)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="468" parent="347" name="Name">
+    <column id="479" parent="347" name="Name">
       <Position>2</Position>
       <DataType>varchar(50)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="469" parent="347" name="Bio">
+    <column id="480" parent="347" name="Bio">
       <Position>3</Position>
       <DataType>tinyint(1)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="470" parent="347" name="Vegetarisch">
+    <column id="481" parent="347" name="Vegetarisch">
       <Position>4</Position>
       <DataType>tinyint(1)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="471" parent="347" name="Vegan">
+    <column id="482" parent="347" name="Vegan">
       <Position>5</Position>
       <DataType>tinyint(1)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="472" parent="347" name="Glutenfrei">
+    <column id="483" parent="347" name="Glutenfrei">
       <Position>6</Position>
       <DataType>tinyint(1)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="473" parent="347" name="PRIMARY">
+    <key id="484" parent="347" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>ID</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="474" parent="348" name="Text">
+    <column id="485" parent="348" name="Text">
       <Position>1</Position>
       <DataType>mediumtext|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="475" parent="348" name="Zeitpunkt">
+    <column id="486" parent="348" name="Zeitpunkt">
       <Position>2</Position>
       <DataType>date|0s</DataType>
       <ColumnKind>normal</ColumnKind>

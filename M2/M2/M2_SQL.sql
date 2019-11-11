@@ -6,10 +6,10 @@ DROP TABLE IF EXISTS `BenutzerBefreundetMitBenutzer`;
 DROP TABLE IF EXISTS `MahlzeitenEnthaltenZutaten`;
 DROP TABLE IF EXISTS `MahlzeitenHabenBilder`;
 DROP TABLE IF EXISTS `Gäste`;
-DROP TABLE IF EXISTS `FH Angehörige`;
-DROP TABLE IF EXISTS `Mitarbeiter`;
-DROP TABLE IF EXISTS `Kommentare`;
 DROP TABLE IF EXISTS `Studenten`;
+DROP TABLE IF EXISTS `Mitarbeiter`;
+DROP TABLE IF EXISTS `FH Angehörige`;
+DROP TABLE IF EXISTS `Kommentare`;
 DROP TABLE IF EXISTS `Fachbereich`;
 DROP TABLE IF EXISTS `Bestellung`;
 DROP TABLE IF EXISTS `Zutaten`
@@ -23,18 +23,20 @@ DROP TABLE IF EXISTS `Bilder`;
 
 CREATE TABLE `Benutzer`(
     Nummer INT UNSIGNED AUTO_INCREMENT,
-    `E-Mail` VARCHAR(254) NOT NULL,
-    Bild VARBINARY(1000),
+    `E-Mail` VARCHAR(254) NOT NULL DEFAULT 'Max.Mustermann@fh-aachen.de',
+    Bild mediumblob NOT NULL DEFAULT (0x00),
     Nutzername VARCHAR(50) NOT NULL,
     Hash VARCHAR(60),
-    `Letzter Login` DATETIME,
+    `Letzter Login` DATETIME DEFAULT NULL,
     `Anlege Datum` DATE NOT NULL DEFAULT CURRENT_DATE,
-    Aktiv BOOL,
+    Aktiv BOOL DEFAULT NULL,
     Vorname VARCHAR(50) NOT NULL,
     Nachname VARCHAR(50) NOT NULL,
-    Geburtsdatum DATE NOT NULL,
+    Geburtsdatum DATE,
     `Alter` INT unsigned AS (DATEDIFF(CURRENT_DATE, Geburtsdatum)/365),
-    PRIMARY KEY (Nummer)
+    PRIMARY KEY (Nummer),
+    CONSTRAINT UN_Nutzername UNIQUE (`Nutzername`),
+    CONSTRAINT UN_EMail UNIQUE (`E-Mail`)
 );
 
 CREATE TABLE `BenutzerBefreundetMitBenutzer`(
@@ -45,22 +47,25 @@ CREATE TABLE `BenutzerBefreundetMitBenutzer`(
 );
 
 CREATE TABLE `Gäste`(
-    Nummer INT UNSIGNED AUTO_INCREMENT,
+    Nummer INT UNSIGNED,
     Grund VARCHAR(254),
     Ablaufdatum DATETIME,
-    PRIMARY KEY (Nummer)
+    CONSTRAINT FK_GästeNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES Benutzer(Nummer)
+    -- PRIMARY KEY (Nummer)
 );
 
 CREATE TABLE `FH Angehörige`(
     Nummer INT UNSIGNED AUTO_INCREMENT,
-    PRIMARY KEY (Nummer)
+    CONSTRAINT FK_FhAngehörigeNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES Benutzer(Nummer)
+    -- PRIMARY KEY (Nummer)
 );
 
 CREATE TABLE `Mitarbeiter`(
     Nummer INT UNSIGNED AUTO_INCREMENT,
     `Büro` VARCHAR(20),
     `Telefon` INT(20),
-    PRIMARY KEY (Nummer)
+    CONSTRAINT FK_MitarbeiterNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES `FH Angehörige`(Nummer)
+    -- PRIMARY KEY (Nummer)
 );
 
 CREATE TABLE `Studenten`(
@@ -68,7 +73,10 @@ CREATE TABLE `Studenten`(
     Studiengang VARCHAR(3) NOT NULL,
     Matrikelnummer INT(9) NOT NULL,
     CONSTRAINT MatrikelNrEindeutig UNIQUE (Matrikelnummer),
-    PRIMARY KEY (Nummer)
+    PRIMARY KEY (Nummer),
+    CONSTRAINT UN_Matrikelnummer UNIQUE (Matrikelnummer),
+    CONSTRAINT FK_StudentNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES `FH Angehörige`(Nummer),
+    CONSTRAINT Ch_Values CHECK ( Studiengang='ET' OR Studiengang='INF' OR Studiengang='ISE' OR Studiengang='MCD' OR Studiengang='WI')
 );
 
 CREATE TABLE `Fachbereich`(
