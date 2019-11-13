@@ -1,3 +1,7 @@
 -- insert into Benutzer (`E-Mail`, Nutzername, Vorname, Nachname, Geburtsdatum) VALUES ('hallo@hallo.de', 'test', 'test', 'test', '1995-08-04');
 -- select * from Benutzer
-insert into Benutzer   ;
+--insert into Benutzer (`E-Mail`, Nutzername, Vorname, Nachname, Geburtsdatum) VALUES ('Dennis.Gansewendt@alumni.fh-aachen.de.de', 'DenGan', 'Dennis', 'Gansewendt', '1998-08-04');
+insert into Benutzer (`E-Mail`, Nutzername, Vorname, Nachname, Geburtsdatum) VALUES ('Philipp.Uthoff@alumni.fh-aachen.de.de', 'PhiUth', 'Philipp', 'Uthoff', '1995-05-02');
+insert into Benutzer (`E-Mail`, Nutzername, Vorname, Nachname, Geburtsdatum) VALUES ('Nathalie.Schaar@alumni.fh-aachen.de.de', 'NatSch', 'Nathalie', 'Schaar', '1997-07-10');
+insert into Benutzer (`E-Mail`, Nutzername, Vorname, Nachname, Geburtsdatum) VALUES ('Dennis.Gansewendt@alumni.fh-aachen.de.de', 'DenGan', 'Dennis', 'Gansewendt', '1998-08-04');
+insert into Benutzer (`E-Mail`, Nutzername, Vorname, Nachname, Geburtsdatum) VALUES ('Dominik.Schmitt@alumni.fh-aachen.de.de', 'DomSch', 'Dominik', 'Schmitt', '1995-08-04');

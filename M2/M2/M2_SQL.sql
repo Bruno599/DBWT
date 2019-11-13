@@ -6,11 +6,11 @@ DROP TABLE IF EXISTS `BenutzerBefreundetMitBenutzer`;
 DROP TABLE IF EXISTS `MahlzeitenEnthaltenZutaten`;
 DROP TABLE IF EXISTS `MahlzeitenHabenBilder`;
 DROP TABLE IF EXISTS `Gäste`;
-DROP TABLE IF EXISTS `Studenten`;
-DROP TABLE IF EXISTS `Mitarbeiter`;
-DROP TABLE IF EXISTS `FH Angehörige`;
-DROP TABLE IF EXISTS `Kommentare`;
 DROP TABLE IF EXISTS `Fachbereich`;
+DROP TABLE IF EXISTS `Mitarbeiter`;
+DROP TABLE IF EXISTS `Kommentare`;
+DROP TABLE IF EXISTS `Studenten`;
+DROP TABLE IF EXISTS `FH Angehörige`;
 DROP TABLE IF EXISTS `Bestellung`;
 DROP TABLE IF EXISTS `Zutaten`
 DROP TABLE IF EXISTS `Preise`;
@@ -49,23 +49,23 @@ CREATE TABLE `BenutzerBefreundetMitBenutzer`(
 CREATE TABLE `Gäste`(
     Nummer INT UNSIGNED,
     Grund VARCHAR(254),
-    Ablaufdatum DATETIME,
-    CONSTRAINT FK_GästeNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES Benutzer(Nummer)
-    -- PRIMARY KEY (Nummer)
+    Ablaufdatum DATE DEFAULT (CURRENT_DATE() + TO_DAYS(7)),
+    CONSTRAINT FK_GästeNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES Benutzer(Nummer),
+    PRIMARY KEY (Nummer)
 );
 
 CREATE TABLE `FH Angehörige`(
     Nummer INT UNSIGNED AUTO_INCREMENT,
-    CONSTRAINT FK_FhAngehörigeNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES Benutzer(Nummer)
-    -- PRIMARY KEY (Nummer)
+    CONSTRAINT FK_FhAngehörigeNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES Benutzer(Nummer),
+    PRIMARY KEY (Nummer)
 );
 
 CREATE TABLE `Mitarbeiter`(
     Nummer INT UNSIGNED AUTO_INCREMENT,
     `Büro` VARCHAR(20),
     `Telefon` INT(20),
-    CONSTRAINT FK_MitarbeiterNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES `FH Angehörige`(Nummer)
-    -- PRIMARY KEY (Nummer)
+    CONSTRAINT FK_MitarbeiterNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES `FH Angehörige`(Nummer),
+    PRIMARY KEY (Nummer)
 );
 
 CREATE TABLE `Studenten`(
@@ -76,7 +76,8 @@ CREATE TABLE `Studenten`(
     PRIMARY KEY (Nummer),
     CONSTRAINT UN_Matrikelnummer UNIQUE (Matrikelnummer),
     CONSTRAINT FK_StudentNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES `FH Angehörige`(Nummer),
-    CONSTRAINT Ch_Values CHECK ( Studiengang='ET' OR Studiengang='INF' OR Studiengang='ISE' OR Studiengang='MCD' OR Studiengang='WI')
+    CONSTRAINT Ch_Values CHECK ( Studiengang='ET' OR Studiengang='INF' OR Studiengang='ISE' OR Studiengang='MCD' OR Studiengang='WI'),
+    CONSTRAINT CH_Value_Matrikelnummer CHECK (Matrikelnummer > 9999999 AND Matrikelnummer < 100000000)
 );
 
 CREATE TABLE `Fachbereich`(
@@ -114,17 +115,18 @@ CREATE TABLE `Kategorien`(
 CREATE TABLE `Mahlzeiten`(
     ID int,
     Beschreibung TEXT(1000),
-    Vorrat int(3),
-    Verfügbar Bool,
+    Vorrat int(3) DEFAULT 0,
+    Verfügbar Bool DEFAULT FALSE,
     inKategorie INT UNSIGNED,
     PRIMARY KEY (ID),
     CONSTRAINT FK_MahlzeitenInKategorien FOREIGN KEY (inKategorie) REFERENCES Kategorien(ID)
 );
 
 CREATE TABLE `Deklarationen`(
-    Zeichen CHAR,
+    Zeichen CHAR(2) NOT NULL ,
     Beschriftung VARCHAR(254) NOT NULL ,
-    PRIMARY KEY (Zeichen)
+    PRIMARY KEY (Zeichen),
+    CONSTRAINT CH_Char CHECK ( Zeichen < 3 )
 
 );
 
@@ -147,13 +149,14 @@ CREATE TABLE `Kommentare`(
 );
 
 CREATE TABLE `Bestellung`(
-    Abholzeitpunkt DATETIME,
-    Bestellzeitpunkt DATETIME,
-    Nummer INT,
-    Endpreis DECIMAL(4,2),
-    BenutzerNr INT UNSIGNED,
+    Abholzeitpunkt DATETIME DEFAULT NULL,
+    Bestellzeitpunkt DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    Nummer INT AUTO_INCREMENT,
+    Endpreis DECIMAL(6,2) DEFAULT 0,
+    BenutzerNr INT UNSIGNED NOT NULL ,
     getaetigtVon INT UNSIGNED NOT NULL ,
     CONSTRAINT FK_BestellungBenutzer FOREIGN KEY (getaetigtVon) REFERENCES Benutzer(Nummer),
+    CONSTRAINT CH_Abholzeitpunkt CHECK ( Abholzeitpunkt = NULL OR Abholzeitpunkt > Bestellzeitpunkt),
     PRIMARY KEY (Nummer)
 );
 
@@ -169,20 +172,29 @@ CREATE TABLE `BestellungEnthältMahlzeiten`(
 
 CREATE TABLE `Preise` (
     Jahr Int(4),
-    Gastpreis DECIMAL(4,2),
-    Studentpreis DECIMAL(4,2),
-    `MA-Preis` DECIMAL(4,2)
+    Gastpreis DECIMAL(4,2) UNSIGNED,
+    Studentpreis DECIMAL(4,2) UNSIGNED,
+    `MA-Preis` DECIMAL(4,2) UNSIGNED,
+    ID INT,
+    CONSTRAINT FK_IDVonMahlzeiten FOREIGN KEY (ID) REFERENCES Mahlzeiten(ID),
+    CONSTRAINT CH_Preis CHECK ( Studentpreis > `MA-Preis` ),
+    CONSTRAINT PK_Key PRIMARY KEY (Jahr, ID)
 
 );
 
 CREATE TABLE `Zutaten` (
-    ID INT(5) ,
-    Name VARCHAR(50),
-    Bio BOOL,
-    Vegetarisch BOOL,
-    Vegan BOOL,
-    Glutenfrei BOOL,
-    PRIMARY KEY (ID)
+    ID INT(5) NOT NULL ,
+    Name VARCHAR(50) NOT NULL ,
+    Bio BOOL DEFAULT FALSE,
+    Vegetarisch BOOL DEFAULT FALSE,
+    Vegan BOOL DEFAULT FALSE,
+    Glutenfrei BOOL DEFAULT FALSE,
+    PRIMARY KEY (ID),
+    CONSTRAINT CH_stellenVonZahlID CHECK ( ID > 9999 AND ID < 100000 ),
+    CONSTRAINT CH_ValueBIO CHECK ( Bio = '0' OR Bio = '1' ),
+    CONSTRAINT CH_ValueVegetarisch CHECK ( Vegetarisch = '0' OR Vegetarisch = '1' ),
+    CONSTRAINT CH_ValueVegan CHECK ( Vegan = '0' OR Vegan = '1' ),
+    CONSTRAINT CH_ValueGlutenfrei CHECK ( Glutenfrei = '0' OR Glutenfrei = '1' )
 );
 
 CREATE TABLE `MahlzeitenEnthaltenZutaten`(
