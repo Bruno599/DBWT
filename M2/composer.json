@@ -1,0 +1,15 @@
+{
+  "name": "ds1818s/M2",
+  "description": "description_text",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Dominik Schmitt",
+      "email": "Dominik.Schmitt@alumni.fh-aachen.de"
+    }
+  ],
+  "require": {
+    "vlucas/phpdotenv": "3.5.x-dev"
+  }
+}

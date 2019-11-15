@@ -5,3 +5,50 @@ insert into Benutzer (`E-Mail`, Nutzername, Vorname, Nachname, Geburtsdatum) VAL
 insert into Benutzer (`E-Mail`, Nutzername, Vorname, Nachname, Geburtsdatum) VALUES ('Nathalie.Schaar@alumni.fh-aachen.de.de', 'NatSch', 'Nathalie', 'Schaar', '1997-07-10');
 insert into Benutzer (`E-Mail`, Nutzername, Vorname, Nachname, Geburtsdatum) VALUES ('Dennis.Gansewendt@alumni.fh-aachen.de.de', 'DenGan', 'Dennis', 'Gansewendt', '1998-08-04');
 insert into Benutzer (`E-Mail`, Nutzername, Vorname, Nachname, Geburtsdatum) VALUES ('Dominik.Schmitt@alumni.fh-aachen.de.de', 'DomSch', 'Dominik', 'Schmitt', '1995-08-04');
+
+INSERT INTO Benutzer(`E-Mail`, Bild, Nutzername, `Anlege Datum`, Aktiv, Vorname, Nachname, Geburtsdatum, `Letzter Login`, Hash) VALUES ('test1.test1@fh-aachen.com', 0, 'ts1111s', CURRENT_DATE, 0, 'vtest1', 'ntest1', '2001-01-01', NOW(), 11111);
+INSERT INTO Benutzer(`E-Mail`, Bild, Nutzername, `Anlege Datum`, Aktiv, Vorname, Nachname, Geburtsdatum, `Letzter Login`, Hash) VALUES ('test2.test2@fh-aachen.com', 0, 'ts2222s', CURRENT_DATE, 0, 'vtest2', 'ntest2', '2002-02-02', NOW(), 222222222);
+INSERT INTO Benutzer(`E-Mail`, Bild, Nutzername, `Anlege Datum`, Aktiv, Vorname, Nachname, Geburtsdatum, `Letzter Login`, Hash) VALUES ('test3.test3@fh-aachen.com', 0, 'ts3333s', CURRENT_DATE, 0, 'test3', 'ntest3', '2003-03-03', NOW(), 3333333);
+INSERT INTO Benutzer(`E-Mail`, Bild, Nutzername, `Anlege Datum`, Aktiv, Vorname, Nachname, Geburtsdatum, `Letzter Login`, Hash) VALUES ('test4.test4@fh-aachen.com', 0, 'ts4444s', CURRENT_DATE, 0, 'test4', 'ntest4', '2004-04-04', NOW(), 44444444);
+
+INSERT INTO `FH Angehoerige`(Nummer) VALUE ((SELECT Nummer FROM Benutzer WHERE Nutzername = 'ts1111s'));
+-- INSERT INTO `FH Angehoerige`(Nummer) VALUE ((SELECT Nummer FROM Benutzer WHERE Nutzername = 'ts2222s'));
+INSERT INTO `FH Angehoerige`(Nummer) VALUE ((SELECT Nummer FROM Benutzer WHERE Nutzername = 'ts3333s'));
+INSERT INTO `FH Angehoerige`(Nummer) VALUE ((SELECT Nummer FROM Benutzer WHERE Nutzername = 'ts4444s'));
+
+INSERT INTO Studenten(Matrikelnummer, Studiengang, Nummer) VALUES (12345678, 'INF', (SELECT Nummer FROM Benutzer WHERE Nutzername = 'ts1111s'));
+INSERT INTO Studenten(Matrikelnummer, Studiengang, Nummer) VALUES (123456789, 'WI', (SELECT Nummer FROM Benutzer WHERE Nutzername = 'ts4444s'));
+
+INSERT INTO Mitarbeiter(`Büro`, Telefon, Nummer) VALUES ('G203', '181099', (SELECT Nummer FROM Benutzer WHERE Nutzername = 'ts3333s'));
+INSERT INTO Gaeste (Nummer, Grund) VALUES ((SELECT Nummer FROM Benutzer WHERE Nutzername = 'ts2222s'), 'Ist Dumm') ;
+
+SELECT * FROM Benutzer;
+SELECT * FROM `FH Angehoerige`;
+SELECT * FROM Studenten;
+SELECT * FROM Mitarbeiter;
+SELECT * FROM Gaeste;
+
+DELETE FROM Benutzer WHERE Nummer = 1;
+DELETE FROM Benutzer WHERE Nummer = 2;
+DELETE FROM Benutzer WHERE Nummer = 3;
+DELETE FROM Benutzer WHERE Nummer = 4;
+
+-- Weitere Business Rules
+-- 1.
+
+ALTER TABLE Preise DROP CONSTRAINT FK_IDVonMahlzeiten;
+ALTER TABLE Preise MODIFY CONSTRAINT FK_IDVonMahlzeiten FOREIGN KEY (MahlzeitID) REFERENCES Mahlzeiten(ID) ON DELETE CASCADE;
+
+ALTER TABLE MahlzeitenEnthaltenZutaten DROP CONSTRAINT FK_MahlzeitenEnthaltenZutaten_Mahlzeiten;
+ALTER TABLE MahlzeitenEnthaltenZutaten ADD CONSTRAINT FK_MahlzeitenEnthaltenZutaten_Mahlzeiten FOREIGN KEY (ID_M) REFERENCES Mahlzeiten(ID) ON DELETE CASCADE ON UPDATE CASCADE;
+
+ALTER TABLE Kommentare DROP CONSTRAINT FK_KommentareZuMahlzeiten;
+ALTER TABLE Kommentare ADD CONSTRAINT FK_KommentareZuMahlzeiten  FOREIGN KEY (GehörtZu) REFERENCES Mahlzeiten(ID) ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- 2.
+ALTER TABLE Kategorien DROP CONSTRAINT FK_KategorienHatKategorien;
+ALTER TABLE Kategorien ADD CONSTRAINT FOREIGN KEY (hatKategorie) REFERENCES Kategorien(ID) ON DELETE SET NULL;
+
+-- 3.
+ALTER TABLE Kategorien DROP CONSTRAINT FK_KategorienHatBilder;
+ALTER TABLE Kategorien ADD CONSTRAINT FOREIGN KEY (hatBilder) REFERENCES Bilder(ID) ON DELETE SET NULL;
