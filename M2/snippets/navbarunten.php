@@ -1,6 +1,7 @@
 
 <footer>
-        <div class="container border-top border-dark ">
+
+        <div class="container border-top border-dark mb-4 mt-4">
             <div class="row align-items-center mw-100 mt-2">
                 <div class="col-3">
                     (c) <?php echo date("Y") ?> DBWT
@@ -30,10 +31,11 @@
                     else {
                         echo "<a class=\"fh_color\" href=\"Impressum.php\">Impressum</a>";
                     }
+
                     ?>
 
                 </div>
-                <div class="col">
+                <div class="col ">
 
                 </div>
             </div>

@@ -46,6 +46,20 @@
         <item name="@MariaDB" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
         <item name="db3188412: schema" type="ebfa3cd1:MariaImplModel$Schema" />
+        <item name="Bilder: table" type="dbc44a63:MariaImplModel$Table" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="@MariaDB" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="db3188412: schema" type="ebfa3cd1:MariaImplModel$Schema" />
+        <item name="Mahlzeiten: table" type="dbc44a63:MariaImplModel$Table" />
+      </path>
+      <path>
+        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
+        <item name="@MariaDB" type="feb32156:DbDataSourceImpl" />
+        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
+        <item name="db3188412: schema" type="ebfa3cd1:MariaImplModel$Schema" />
         <item name="Zutaten: table" type="dbc44a63:MariaImplModel$Table" />
       </path>
     </expand>
@@ -99,15 +113,14 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="PHP Script.Zutaten.php">
+  <component name="RunManager" selected="JavaScript Debug.Start.php">
     <configuration name="Start.php" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost/DBWT/M2/Start.php">
       <method v="2" />
     </configuration>
     <configuration name="Zutaten.php" type="JavascriptDebugType" temporary="true" nameIsGenerated="true" uri="http://localhost/DBWT/M2/Zutaten.php">
       <method v="2" />
     </configuration>
-    <configuration name="M2" type="PHPUnitRunConfigurationType" factoryName="PHPUnit" temporary="true">
-      <TestRunner directory="$PROJECT_DIR$" />
+    <configuration name="Detail.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/Detail.php">
       <method v="2" />
     </configuration>
     <configuration name="Start.php" type="PhpLocalRunConfigurationType" factoryName="PHP Console" temporary="true" path="$PROJECT_DIR$/Start.php">
@@ -118,11 +131,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="JavaScript Debug.Start.php" />
+        <item itemvalue="PHP Script.Detail.php" />
         <item itemvalue="PHP Script.Zutaten.php" />
         <item itemvalue="PHP Script.Start.php" />
-        <item itemvalue="JavaScript Debug.Start.php" />
         <item itemvalue="JavaScript Debug.Zutaten.php" />
-        <item itemvalue="PHPUnit.M2" />
       </list>
     </recent_temporary>
   </component>
@@ -134,11 +147,6 @@
             <path>
               <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
               <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@e691b76f" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-            </path>
-            <path>
-              <item name="services root" type="e789fda9:ObjectUtils$Sentinel" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceGroupNode@e691b76f" type="7427dc5b:ServiceModel$ServiceGroupNode" />
-              <item name="com.intellij.execution.services.ServiceModel$ServiceNode@791986ff" type="9fbbdea:ServiceModel$ServiceNode" />
             </path>
           </expand>
           <select />
@@ -157,7 +165,7 @@
       <option name="presentableId" value="Default" />
       <updated>1573635900282</updated>
       <workItem from="1573635901438" duration="5251000" />
-      <workItem from="1573753406391" duration="21106000" />
+      <workItem from="1573753406391" duration="66922000" />
     </task>
     <servers />
   </component>

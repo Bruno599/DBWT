@@ -5,6 +5,9 @@
     <title>Produkte.html</title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/design.css" rel="stylesheet">
+    <?php
+    include ('snippets/mysqlconnect.php')
+    ?>
 </head>
 <body>
 
@@ -13,8 +16,32 @@ include ('snippets/navbaroben.php')
 ?>
 
 <!-- #00b5ad  Farbcode der Links-->
+<?php
 
-<div class="container">
+$limit1 = $_GET["limit"];
+$avail = $_GET["avail"];
+if($avail) {
+    if($limit1 > 0) {
+        $query="select ID, Name, Verfügbar FROM Mahlzeiten WHERE Verfügbar = true LIMIT $limit1";
+    }
+    else {
+            $query="select ID, Name, Verfügbar FROM Mahlzeiten WHERE Verfügbar = true";
+        }
+}
+else {
+    if($limit1 > 0) {
+        $query="select ID, Name, Verfügbar FROM Mahlzeiten LIMIT $limit1";
+    }
+    else {
+        $query="select ID, Name, Verfügbar FROM Mahlzeiten";
+    }
+}
+
+
+$result = mysqli_query($remoteConnection, $query);
+
+echo
+'<div class="container">
     <div class="row m-4">
         <div class="col-2 ml-3">
         </div>
@@ -36,96 +63,62 @@ include ('snippets/navbaroben.php')
                        <option value="Pizza">
                    </datalist>
 
-                   <input type="checkbox" class="m-2 "> nur verfügbar
+                   <input type="checkbox" class="m-2"> nur verfügbar
                    <input type="checkbox" class="m-2"> nur vegetarisch
                    <input type="checkbox" class="m-2"> nur vegan
 
-                   <button type="button" class="mt-5 ">Speisen filtern</button>
+                   <button type="button" class="mt-5">Speisen filtern</button>
                </fieldset>
-
            </form>
         </div>
-        <div class="col" id="body_produkte">
-            <div class="row text-center">
-                <div class="col m-2 ">
-                    <img src="pictures/platzhalter_essen.jpg" alt="sorry I'am Broken">
-                </div>
-                <div class="col m-2">
-                    <img src="pictures/platzhalter_essen.jpg" alt="sorry I'am Broken">
-                </div>
-                <div class="col m-2 passdout">
-                    <img src="pictures/platzhalter_essen.jpg" alt="sorry I'am Broken">
-                </div>
-                <div class="col m-2">
-                    <img src="pictures/platzhalter_essen.jpg" alt="sorry I'am Broken">
-                </div>
+      
+        <div class="col" id="body_produkte">';
 
-            </div>
-            <div class="row text-center">
-                <div class="col ">
-                    Curry Wok <br>
-                    <a href="Detail.php" class="fh_color"> Details</a>
-                </div>
-                <div class="col ">
-                    Schnitzel <br>
-                    <a href="Detail.php" class="fh_color"> Details</a>
-                </div>
-                <div class="col passdout">
-                    Bratrolle <br>
-                    <a>vergriffen</a>
-                </div>
-                <div class="col ">
-                    Krautsalat <br>
-                    <a href="Detail.php" class="fh_color"> Details</a>
-                </div>
 
-            </div>
-            <div class="row text-center">
-                <div class="col m-2">
-                    <img src="pictures/platzhalter_essen.jpg" alt="sorry I'am Broken">
-                </div>
-                <div class="col m-2">
-                    <img src="pictures/platzhalter_essen.jpg" alt="sorry I'am Broken">
-                </div>
-                <div class="col m-2">
-                    <img src="pictures/platzhalter_essen.jpg" alt="sorry I'am Broken">
-                </div>
-                <div class="col m-2">
-                    <img src="pictures/platzhalter_essen.jpg" alt="sorry I'am Broken">
-                </div>
+for($j = 0;$j <= 2;$j++)
+    {
 
-            </div>
-            <div class="row text-center">
-                <div class="col ">
-                    Falafel <br>
-                    <a href="Detail.php" class="fh_color"> Details</a>
-                </div>
-                <div class="col ">
-                    Currywurst <br>
-                    <a href="Detail.php" class="fh_color"> Details</a>
-                </div>
-                <div class="col ">
-                    Käsestulle <br>
-                    <a href="Detail.php" class="fh_color"> Details</a>
-                </div>
-                <div class="col ">
-                    Spiegelei <br>
-                    <a href="Detail.php" class="fh_color"> Details</a>
-                </div>
+        echo '<div class="row text-center">';
+            for($i = 0;$i <4;$i++)
+                {
+                    if ($row = mysqli_fetch_assoc($result)) {
 
-            </div>
-        </div>
-        <div class="col-1">
-            <!-- nur zum einrücken -->
-        </div>
+                        $value = $row['ID'];
+                        $query1 = "SELECT Mahlzeiten.ID, B.Binärdaten FROM Mahlzeiten
+                        LEFT JOIN MahlzeitenHabenBilder MHB on Mahlzeiten.ID = MHB.ID_M
+                        LEFT JOIN Bilder B on MHB.ID_B = B.ID
+                        WHERE Mahlzeiten.ID = $value";
+                        $result1 = mysqli_query($remoteConnection, $query1);
+                        $row1 = mysqli_fetch_assoc($result1);
+                        if($row['Verfügbar'])
+                        {
+                            echo '<div class="col ">
+                                    <div class="col "><img class="img details_picture mw-100" alt="platzhalter" src="data:image/jpeg;base64,' . base64_encode($row1['Binärdaten']) . '"></div>
+                                     <div class="col "><a>' . $row['Name'] . '</a></div>
+                                     <div class="col "><a class="fh_color" href="Detail.php?id=' . $row['ID'] . '"> Details</a></div>
+                                    </div>';
+                        }
+                        else
+                        {
+                           echo '<div class="col  passdout">
+                                     <div class="col"><img class="img details_picture mw-100" alt="platzhalter" src="data:image/jpeg;base64,' . base64_encode($row1['Binärdaten']) . '"></div>
+                                     <div class="col"><a>' . $row['Name'] . '</a></div>
+                                     <div class="col "><a class="fh_color" > Details</a></div>
+                                     </div>';
+                        }
+                    }
+                }
+        echo '</div>';
 
+   }
+
+    echo '</div>
     </div>
-</div>
-
+</div>'
+?>
 <?php
+mysqli_close($remoteConnection);
 include ('snippets/navbarunten.php')
 ?>
-
-
 </body>
 </html>

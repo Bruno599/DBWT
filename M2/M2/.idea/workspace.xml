@@ -39,22 +39,7 @@
         <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
         <item name="db3188412@149.201.88.110" type="feb32156:DbDataSourceImpl" />
         <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="db3188412: schema" type="ebfa3cd1:MariaImplModel$Schema" />
-        <item name="Kommentare: table" type="dbc44a63:MariaImplModel$Table" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="db3188412@149.201.88.110" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="db3188412: schema" type="ebfa3cd1:MariaImplModel$Schema" />
-        <item name="Preise: table" type="dbc44a63:MariaImplModel$Table" />
-      </path>
-      <path>
-        <item name="Database" type="3277223f:DatabaseStructure$DbRootGroup" />
-        <item name="db3188412@149.201.88.110" type="feb32156:DbDataSourceImpl" />
-        <item name="schemas" type="d4e8921:DatabaseStructure$FamilyGroup" />
-        <item name="db3188412: schema" type="ebfa3cd1:MariaImplModel$Schema" />
-        <item name="Zutaten: table" type="dbc44a63:MariaImplModel$Table" />
+        <item name="public: schema" type="ebfa3cd1:MariaImplModel$Schema" />
       </path>
     </expand>
     <select />

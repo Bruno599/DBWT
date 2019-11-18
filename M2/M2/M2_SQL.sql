@@ -22,17 +22,19 @@ DROP TABLE IF EXISTS `Benutzer`;
 
 CREATE TABLE `Benutzer`(
     Nummer INT UNSIGNED AUTO_INCREMENT,
-    `E-Mail` VARCHAR(254) NOT NULL,
+    `E-Mail` VARCHAR(254) NOT NULL UNIQUE ,
     Bild mediumblob NOT NULL DEFAULT (0x00),
-    Nutzername VARCHAR(50) NOT NULL,
-    Hash VARCHAR(60) NOT NULL ,
+    Nutzername VARCHAR(50) NOT NULL UNIQUE ,
+    Hash CHAR(60) NOT NULL  ,
     `Letzter Login` DATETIME DEFAULT NULL,
     `Anlege Datum` DATE NOT NULL DEFAULT CURRENT_DATE,
     Aktiv BOOL DEFAULT NULL,
     Vorname VARCHAR(50) NOT NULL,
     Nachname VARCHAR(50) NOT NULL,
-    Geburtsdatum DATE,
-    `Alter` TINYINT UNSIGNED AS (DATEDIFF(CURRENT_DATE, Geburtsdatum)/365),
+    Geburtsdatum DATE DEFAULT NULL,
+    `Alter` TINYINT UNSIGNED AS (YEAR(CURRENT_DATE()) - YEAR(Geburtsdatum) -
+        (DATE_FORMAT(CURRENT_DATE(), '%m%d') <
+         DATE_FORMAT(Geburtsdatum, '%m%d'))) VIRTUAL,
     PRIMARY KEY (Nummer),
     CONSTRAINT UN_Nutzername UNIQUE (`Nutzername`),
     CONSTRAINT UN_EMail UNIQUE (`E-Mail`)
@@ -50,13 +52,13 @@ CREATE TABLE `Gaeste`(
     Nummer INT UNSIGNED NOT NULL ,
     Grund VARCHAR(254) NOT NULL ,
     Ablaufdatum DATE DEFAULT (DATE_ADD(CURRENT_DATE, INTERVAL 7 DAY)),
-    CONSTRAINT FK_GaesteNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES Benutzer(Nummer),
+    CONSTRAINT FK_GaesteNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES Benutzer(Nummer) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (Nummer)
 );
 
 CREATE TABLE `FH Angehoerige`(
     Nummer INT UNSIGNED NOT NULL ,
-    CONSTRAINT FK_FhAngehoerigeNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES Benutzer(Nummer),
+    CONSTRAINT FK_FhAngehoerigeNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES Benutzer(Nummer) ON DELETE CASCADE ON UPDATE CASCADE ,
     PRIMARY KEY (Nummer)
 );
 
@@ -64,19 +66,20 @@ CREATE TABLE `Mitarbeiter`(
     Nummer INT UNSIGNED,
     `Büro` VARCHAR(20) DEFAULT NULL,
     `Telefon` INT(20),
-    CONSTRAINT FK_MitarbeiterNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES `FH Angehoerige`(Nummer),
+    CONSTRAINT FK_MitarbeiterNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES `FH Angehoerige`(Nummer) ON DELETE CASCADE ON UPDATE CASCADE,
     PRIMARY KEY (Nummer)
 );
 
 CREATE TABLE `Studenten`(
     Nummer INT UNSIGNED AUTO_INCREMENT,
     Studiengang VARCHAR(3) NOT NULL,
-    Matrikelnummer INT(9) NOT NULL,
+    Matrikelnummer INT(9) NOT NULL UNIQUE ,
     CONSTRAINT MatrikelNrEindeutig UNIQUE (Matrikelnummer),
     PRIMARY KEY (Nummer),
     CONSTRAINT UN_Matrikelnummer UNIQUE (Matrikelnummer),
     CONSTRAINT FK_StudentNummerOfBenutzer FOREIGN KEY (Nummer) REFERENCES `FH Angehoerige`(Nummer) ON DELETE CASCADE ON UPDATE CASCADE ,
     CONSTRAINT Ch_Values CHECK ( Studiengang='ET' OR Studiengang='INF' OR Studiengang='ISE' OR Studiengang='MCD' OR Studiengang='WI'),
+    -- CONSTRAINT Ch_Values CHECK ( Studiengang IN ('ET','INF','ISE','MCD','WI')),
     CONSTRAINT CH_Value_Matrikelnummer CHECK (Matrikelnummer > 9999999)
 );
 
@@ -97,7 +100,7 @@ CREATE TABLE `FbGehoertZuFhAngehoerige`(
 CREATE TABLE `Bilder`(
     ID INT UNSIGNED AUTO_INCREMENT,
     `Alt-Text` VARCHAR(254) NOT NULL ,
-    Title VARCHAR(50) NOT NULL ,
+    Titel VARCHAR(50) NOT NULL ,
     Binärdaten mediumblob,
     PRIMARY KEY (ID)
 );
@@ -108,19 +111,19 @@ CREATE TABLE `Kategorien`(
     hatKategorie INT UNSIGNED,
     hatBilder INT UNSIGNED,
     PRIMARY KEY (ID),
-    CONSTRAINT FK_KategorienHatKategorien FOREIGN KEY (hatKategorie) REFERENCES Kategorien(ID) ON DELETE SET NULL ,
+    CONSTRAINT FK_KategorienHatKategorien FOREIGN KEY (hatKategorie) REFERENCES Kategorien(ID) ON DELETE SET NULL,
     CONSTRAINT FK_KategorienHatBilder FOREIGN KEY (hatBilder) REFERENCES Bilder(ID) ON DELETE SET NULL
 );
 
 CREATE TABLE `Mahlzeiten`(
     ID INT UNSIGNED AUTO_INCREMENT,
     Name Varchar(255) NOT NULL,
-    Beschreibung TEXT(1000),
+    Beschreibung TEXT(1000) CHARACTER SET UTF8 NOT NULL,
     Vorrat INT(3) UNSIGNED DEFAULT 0,
     `Verfügbar` BOOL AS (Vorrat > 0) VIRTUAL,
-    inKategorie INT UNSIGNED ,
-    PRIMARY KEY (ID),
-    CONSTRAINT FK_MahlzeitenInKategorien FOREIGN KEY (inKategorie) REFERENCES Kategorien(ID) ON DELETE SET NULL
+    inKategorie INT UNSIGNED NOT NULL,
+    PRIMARY KEY (ID)
+    -- CONSTRAINT FK_MahlzeitenInKategorien FOREIGN KEY (inKategorie) REFERENCES Kategorien(ID)
 );
 
 CREATE TABLE `Deklarationen`(
@@ -172,8 +175,8 @@ CREATE TABLE `BestellungEnthaeltMahlzeiten`(
 CREATE TABLE `Preise` (
     Jahr YEAR NOT NULL,
     Gastpreis DECIMAL(4,2) UNSIGNED NOT NULL ,
-    Studentpreis DECIMAL(4,2) UNSIGNED NOT NULL ,
-    `MA-Preis` DECIMAL(4,2) UNSIGNED NOT NULL ,
+    Studentpreis DECIMAL(4,2) UNSIGNED DEFAULT NULL,
+    `MA-Preis` DECIMAL(4,2) UNSIGNED DEFAULT NULL,
     MahlzeitID INT UNSIGNED NOT NULL ,
     CONSTRAINT FK_IDVonMahlzeiten FOREIGN KEY (MahlzeitID) REFERENCES Mahlzeiten(ID),
     CONSTRAINT CH_Preis CHECK ( Studentpreis < `MA-Preis` ),
@@ -210,7 +213,7 @@ CREATE TABLE `MahlzeitenHabenBilder`(
     CONSTRAINT FK_MahlzeitenHabenBilder_Bilder FOREIGN KEY (ID_B) REFERENCES Bilder(ID) ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-/*
+
 -- Aufgabe 2.3 - Kaskaden
 
 INSERT INTO Benutzer(`E-Mail`, Bild, Nutzername, `Anlege Datum`, Aktiv, Vorname, Nachname, Geburtsdatum, `Letzter Login`, Hash) VALUES ('test1.test1@fh-aachen.com', 0, 'ts1111s', CURRENT_DATE, 0, 'vtest1', 'ntest1', '2001-01-01', NOW(), 11111);
@@ -235,16 +238,15 @@ SELECT * FROM Studenten;
 SELECT * FROM Mitarbeiter;
 SELECT * FROM Gaeste;
 
-DELETE FROM Benutzer WHERE Nummer = 1;
-DELETE FROM Benutzer WHERE Nummer = 2;
-DELETE FROM Benutzer WHERE Nummer = 3;
-DELETE FROM Benutzer WHERE Nummer = 4;
+-- DELETE FROM Benutzer WHERE Nummer = 1;
+-- DELETE FROM Benutzer WHERE Nummer = 2;
+-- DELETE FROM Benutzer WHERE Nummer = 3;
+-- DELETE FROM Benutzer WHERE Nummer = 4;
 
 -- Weitere Business Rules
 -- 1.
-
 ALTER TABLE Preise DROP CONSTRAINT FK_IDVonMahlzeiten;
-ALTER TABLE Preise MODIFY CONSTRAINT FK_IDVonMahlzeiten FOREIGN KEY (MahlzeitID) REFERENCES Mahlzeiten(ID) ON DELETE CASCADE;
+ALTER TABLE Preise ADD CONSTRAINT FK_IDVonMahlzeiten FOREIGN KEY (MahlzeitID) REFERENCES Mahlzeiten(ID) ON DELETE CASCADE;
 
 ALTER TABLE MahlzeitenEnthaltenZutaten DROP CONSTRAINT FK_MahlzeitenEnthaltenZutaten_Mahlzeiten;
 ALTER TABLE MahlzeitenEnthaltenZutaten ADD CONSTRAINT FK_MahlzeitenEnthaltenZutaten_Mahlzeiten FOREIGN KEY (ID_M) REFERENCES Mahlzeiten(ID) ON DELETE CASCADE ON UPDATE CASCADE;
@@ -260,6 +262,72 @@ ALTER TABLE Kategorien ADD CONSTRAINT FOREIGN KEY (hatKategorie) REFERENCES Kate
 ALTER TABLE Kategorien DROP CONSTRAINT FK_KategorienHatBilder;
 ALTER TABLE Kategorien ADD CONSTRAINT FOREIGN KEY (hatBilder) REFERENCES Bilder(ID) ON DELETE SET NULL;
 
-*/
+INSERT INTO db3188412.Zutaten (ID, Name, Bio, Vegetarisch, Vegan, Glutenfrei) SELECT * FROM public.zutaten;
+
+INSERT INTO Kategorien(Bezeichnung)
+	VALUES ('Klassiker');
+
+INSERT INTO Kategorien(Bezeichnung)
+	VALUES ('Salat');
+
+INSERT INTO Mahlzeiten(`Name`, inKategorie, Vorrat, Beschreibung)
+	VALUES ('Falafel', 1, 20, 'Teigtasche mit Falafel aus Kichererbsen und Sesam, dazu passt hervorragend der <a href="http://localhost/DBWT/M2/Detail.php?id=5">Krautsalat</a>');
+INSERT INTO Preise(MahlzeitID, Jahr, Gastpreis, `Studentpreis`, `MA-Preis`)
+	VALUES (1, 2018, '2.90', '2.50', '2.70');
+INSERT INTO Preise(MahlzeitID, Jahr, Gastpreis, `Studentpreis`, `MA-Preis`)
+	VALUES (1, 2019, '3.00', '2.50', '2.70');
+
+INSERT INTO Mahlzeiten(`Name`, inKategorie, Vorrat, Beschreibung)
+	VALUES ('Schnitzel',(SELECT ID FROM Kategorien WHERE Bezeichnung = 'Klassiker'), 6, 'Mit schmackiger Champignon Rahmsoße');
+INSERT INTO Preise(MahlzeitID, Jahr, Gastpreis, `MA-Preis`, Studentpreis )
+	VALUES ((SELECT ID FROM Mahlzeiten WHERE `Name` = 'Schnitzel'), 2018, '3.90', '3.60', '3.40');
+INSERT INTO Preise(MahlzeitID, Jahr, Gastpreis, `MA-Preis`, Studentpreis)
+	VALUES ((SELECT ID FROM Mahlzeiten WHERE `Name` = 'Schnitzel'), 2019, '4.00', '3.60', '3.40');
+-- INSERT INTO Mahlzeitzutaten(MahlzeitID, ZutatID)
+-- VALUES ((SELECT ID FROM Mahlzeiten WHERE `Name` = 'Schnitzel'), 10002);
+-- INSERT INTO Mahlzeitzutaten(MahlzeitID, ZutatID)
+-- VALUES ((SELECT ID FROM Mahlzeiten WHERE `Name` = 'Schnitzel'), 10007);
+-- INSERT INTO Mahlzeitzutaten(MahlzeitID, ZutatID)
+-- VALUES ((SELECT ID FROM Mahlzeiten WHERE `Name` = 'Schnitzel'), 10010);
+INSERT INTO Kommentare(GehörtZu, Bewertung)
+	VALUES ((SELECT ID FROM Mahlzeiten WHERE `Name` = 'Schnitzel'), 5);
+INSERT INTO Kommentare(GehörtZu, Bewertung)
+	VALUES ((SELECT ID FROM Mahlzeiten WHERE `Name` = 'Schnitzel'), 5);
+INSERT INTO Kommentare(GehörtZu, Bewertung)
+	VALUES ((SELECT ID FROM Mahlzeiten WHERE `Name` = 'Schnitzel'), 4);
+INSERT INTO Kommentare(GehörtZu, Bewertung)
+	VALUES ((SELECT ID FROM Mahlzeiten WHERE `Name` = 'Schnitzel'), 1);
+
+INSERT INTO Mahlzeiten(`Name`, inKategorie, Vorrat, Beschreibung)
+	VALUES ('Currywurst', (SELECT ID FROM Kategorien WHERE Bezeichnung = 'Klassiker'), 0, 'Geht eigentlich immer ;D');
+INSERT INTO Preise(MahlzeitID, Jahr, Gastpreis, `MA-Preis`, Studentpreis)
+	VALUES ((SELECT ID FROM Mahlzeiten WHERE `Name` = 'Currywurst'), 2018, '3.50', '3.40', '3.30');
+INSERT INTO Preise(MahlzeitID, Jahr, Gastpreis, `MA-Preis`,Studentpreis)
+	VALUES ((SELECT ID FROM Mahlzeiten WHERE `Name` = 'Currywurst'), 2019, '3.70', '3.40', '3.30');
+
+INSERT INTO Mahlzeiten(`Name`, inKategorie, Vorrat, Beschreibung)
+	VALUES ('Spiegelei', (SELECT ID FROM Kategorien WHERE Bezeichnung = 'Klassiker'), 40, 'Ein Spieglei? Etwas dürftig, oder?');
+INSERT INTO Preise(MahlzeitID, Jahr, Gastpreis, `MA-Preis`, Studentpreis)
+	VALUES ((SELECT ID FROM Mahlzeiten WHERE `Name` = 'Spiegelei'), 2018, '2.20', '1.80', '1.40');
+INSERT INTO Preise(MahlzeitID, Jahr, Gastpreis, `MA-Preis`, Studentpreis)
+	VALUES ((SELECT ID FROM Mahlzeiten WHERE `Name` = 'Spiegelei'), 2019, '2.50', '1.80', '1.40');
+
+INSERT INTO Mahlzeiten(`Name`, inKategorie, Vorrat, Beschreibung)
+	VALUES ('Krautsalat', (SELECT ID FROM Kategorien WHERE Bezeichnung = 'Salat'), 25, 'Der einzige essbare Salat auf der Welt...');
+INSERT INTO Preise(MahlzeitID, Jahr, Gastpreis, `Studentpreis`, `MA-Preis`)
+	VALUES ((SELECT ID FROM Mahlzeiten WHERE `Name` = 'Krautsalat'), 2018, '1.50', '1.10', '1.20');
+INSERT INTO Preise(MahlzeitID, Jahr, Gastpreis, `Studentpreis`, `MA-Preis`)
+	VALUES ((SELECT ID FROM Mahlzeiten WHERE `Name` = 'Krautsalat'), 2019, '1.90', '1.10', '1.30');
+
+-- Kann erst nach Hochladen der Bilder Ausgeführt werden. --
+
+-- INSERT INTO MahlzeitenHabenBilder(ID_M, ID_B) VALUES ((SELECT M.ID FROM Mahlzeiten M WHERE M.Name = 'Schnitzel'),(SELECT B.ID FROM Bilder B WHERE B.Titel = 'Schnitzel'));
+-- INSERT INTO MahlzeitenHabenBilder(ID_M, ID_B) VALUES ((SELECT M.ID FROM Mahlzeiten M WHERE M.Name = 'Spiegelei'),(SELECT B.ID FROM Bilder B WHERE B.Titel = 'Spiegelei'));
+-- INSERT INTO MahlzeitenHabenBilder(ID_M, ID_B) VALUES ((SELECT M.ID FROM Mahlzeiten M WHERE M.Name = 'Falafel'),(SELECT B.ID FROM Bilder B WHERE B.Titel = 'Falafel'));
+-- INSERT INTO MahlzeitenHabenBilder(ID_M, ID_B) VALUES ((SELECT M.ID FROM Mahlzeiten M WHERE M.Name = 'Krautsalat'),(SELECT B.ID FROM Bilder B WHERE B.Titel = 'Krautsalat'));
+-- INSERT INTO MahlzeitenHabenBilder(ID_M, ID_B) VALUES ((SELECT M.ID FROM Mahlzeiten M WHERE M.Name = 'Currywurst'),(SELECT B.ID FROM Bilder B WHERE B.Titel = 'Currywurst'));
+
+
+
 
 

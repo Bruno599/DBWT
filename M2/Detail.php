@@ -5,18 +5,37 @@
     <title>Details.html</title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/design.css" rel="stylesheet">
-
+    <?php
+    include ('snippets/mysqlconnect.php');
+    $value = $_GET["id"];
+    //echo $value;
+    $query="select Mahlzeiten.Name, Mahlzeiten.Beschreibung, P.Gastpreis, B.Binärdaten FROM Mahlzeiten
+    LEFT JOIN Preise P on Mahlzeiten.ID = P.MahlzeitID
+    LEFT JOIN MahlzeitenHabenBilder MHB on Mahlzeiten.ID = MHB.ID_M
+    LEFT JOIN Bilder B on MHB.ID_B = B.ID
+    WHERE Mahlzeiten.ID = '$value'";
+    $result = mysqli_query($remoteConnection, $query);
+    if(!$row = mysqli_fetch_assoc($result))
+    {
+        echo '<meta http-equiv="refresh" content="0; URL=Produkte.php">';
+    }
+    ?>
 </head>
 <body>
 <?php
 include ('snippets/navbaroben.php')
 ?>
 
-<div class="container mt-4 mb-4">
+<?php
+
+
+
+    echo
+        '<div class="container mt-4 mb-4">
         <div class="row">
             <div class="col-3"></div>
             <div class="col-7 text-left">
-                <h2>Details für "Falafel"</h2>
+                <h2>Details für "' .htmlspecialchars($row['Name']) . '"</h2>
             </div>
             <div class="col-2 text-right">
                 <br><a class="">Gast-Preis</a>
@@ -36,13 +55,20 @@ include ('snippets/navbaroben.php')
                         </fieldset>
                     </form>
             </div>
-            <div class="col-7 p-2 pt-3" >
-                <img class="img details_picture mw-100" src="pictures/platzhalter.jpg" alt="platzhalter">
+            <div class="col-7 p-2 pt-3" >';
+    if ($row['Binärdaten']) {
+        echo '<img class="img details_picture mw-100" alt="platzhalter" src="data:image/jpeg;base64,' . base64_encode($row['Binärdaten']) . '">';
+    } else {
+        echo '<img class="img details_picture mw-100" src="pictures/platzhalter.jpg" alt="platzhalter">';
+    };
+
+    echo '
+                
             </div>
             <div class="col-2 p-2">
                 <div class="row h-50 text-right">
                     <div class="col">
-                    <h2>5,95€</h2>
+                    <h2>' . htmlspecialchars($row['Gastpreis']) . '€</h2>
                     </div>
                 </div>
                 <div class="row h-50 align-items-end">
@@ -75,12 +101,12 @@ include ('snippets/navbaroben.php')
                 </ul>
 
                 <div class="tab-content">
-                    <div class="tab-pane active border-right border-left border-bottom tab_content_size p-2" id="home" role="tabpanel" aria-labelledby="home-tab">
-                        Teigtasche mit Falafel aus Kichererbsen und Sesam, dazu passt hervorragend der Krautsalat.
-                    </div>
+                    <div class="tab-pane active border-right border-left border-bottom tab_content_size p-2" id="home" role="tabpanel" aria-labelledby="home-tab">';
+    echo $row['Beschreibung'];
+    echo '</div>
                     <div class="tab-pane border-right border-left border-bottom tab_content_size p-2" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <ol>
-                            <li>Kichererbsen</li>
+                            <li>noch statisch</li>
                         </ol>
                     </div>
                     <div class="tab-pane border-right border-left border-bottom tab_content_size p-2 h-auto" id="messages" role="tabpanel" aria-labelledby="messages-tab">
@@ -145,17 +171,21 @@ include ('snippets/navbaroben.php')
 
                 <script>
                     $(function () {
-                        $('#myTab li:last-child a').tab('show')
+                        $(\'#myTab li:last-child a\').tab(\'show\')
                     })
                 </script>
             </div>
         </div>
 
 
-</div>
+</div>';
 
+
+
+?>
 <?php
-include ('snippets/navbarunten.php')
+mysqli_close($remoteConnection);
+include ('snippets/navbarunten.php');
 ?>
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

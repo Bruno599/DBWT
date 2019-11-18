@@ -1,6 +1,11 @@
 <?php
+require __DIR__ . '/../vendor/autoload.php';
 
-$remoteConnection = mysqli_connect('149.201.88.110', 's_ds1818s', '!J242THEI7', 'db3188412');
+$dotenv = Dotenv\Dotenv::create(__DIR__,'/../connection.env');
+$dotenv->load();
+$dotenv->required(['DB_HOST', 'DB_NAME', 'DB_USER', 'DB_PASS','DB_PORT']);
+
+$remoteConnection = mysqli_connect(getenv('DB_HOST'),getenv('DB_USER'),getenv('DB_PASS'),getenv('DB_NAME'));
 
 if (mysqli_connect_errno()) {
     printf("Konnte nicht zur entfernten Datenbank verbinden: %s\n", mysqli_connect_error());
