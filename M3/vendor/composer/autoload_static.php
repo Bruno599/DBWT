@@ -7,137 +7,37 @@ namespace Composer\Autoload;
 class ComposerStaticInit933cad3110a53c93042dc00e51b152ea
 {
     public static $files = array (
-        '3b5531f8bb4716e1b6014ad7e734f545' => __DIR__ . '/..' . '/illuminate/support/Illuminate/Support/helpers.php',
-        '0e6d7bf4a5811bfa5cf40c5ccd6fae6a' => __DIR__ . '/..' . '/symfony/polyfill-mbstring/bootstrap.php',
-        '32dcc8afd4335739640db7d200c1971d' => __DIR__ . '/..' . '/symfony/polyfill-apcu/bootstrap.php',
         '320cde22f66dd4f5d3fd621d3e88b98f' => __DIR__ . '/..' . '/symfony/polyfill-ctype/bootstrap.php',
     );
 
     public static $prefixLengthsPsr4 = array (
         'S' => 
         array (
-            'Symfony\\Polyfill\\Mbstring\\' => 26,
             'Symfony\\Polyfill\\Ctype\\' => 23,
-            'Symfony\\Polyfill\\Apcu\\' => 22,
-            'Symfony\\Contracts\\Translation\\' => 30,
-            'Symfony\\Component\\Translation\\' => 30,
-            'Symfony\\Component\\ClassLoader\\' => 30,
         ),
         'D' => 
         array (
             'Dotenv\\' => 7,
         ),
-        'B' => 
-        array (
-            'Barryvdh\\LaravelIdeHelper\\' => 26,
-        ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Symfony\\Polyfill\\Mbstring\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-mbstring',
-        ),
         'Symfony\\Polyfill\\Ctype\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/polyfill-ctype',
-        ),
-        'Symfony\\Polyfill\\Apcu\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/polyfill-apcu',
-        ),
-        'Symfony\\Contracts\\Translation\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/translation-contracts',
-        ),
-        'Symfony\\Component\\Translation\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/translation',
-        ),
-        'Symfony\\Component\\ClassLoader\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/symfony/class-loader',
         ),
         'Dotenv\\' => 
         array (
             0 => __DIR__ . '/..' . '/vlucas/phpdotenv/src',
         ),
-        'Barryvdh\\LaravelIdeHelper\\' => 
-        array (
-            0 => __DIR__ . '/..' . '/barryvdh/laravel-ide-helper/src',
-        ),
-    );
-
-    public static $fallbackDirsPsr4 = array (
-        0 => __DIR__ . '/..' . '/nesbot/carbon/src',
     );
 
     public static $prefixesPsr0 = array (
-        'p' => 
-        array (
-            'phpDocumentor' => 
-            array (
-                0 => __DIR__ . '/..' . '/phpdocumentor/reflection-docblock/src',
-            ),
-        ),
-        'U' => 
-        array (
-            'UpdateHelper\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/kylekatarnls/update-helper/src',
-            ),
-        ),
-        'S' => 
-        array (
-            'Symfony\\Component\\Finder\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/symfony/finder',
-            ),
-            'Symfony\\Component\\Console\\' => 
-            array (
-                0 => __DIR__ . '/..' . '/symfony/console',
-            ),
-        ),
         'P' => 
         array (
             'PhpOption\\' => 
             array (
                 0 => __DIR__ . '/..' . '/phpoption/phpoption/src',
-            ),
-        ),
-        'I' => 
-        array (
-            'Illuminate\\View' => 
-            array (
-                0 => __DIR__ . '/..' . '/illuminate/view',
-            ),
-            'Illuminate\\Support' => 
-            array (
-                0 => __DIR__ . '/..' . '/illuminate/support',
-            ),
-            'Illuminate\\Filesystem' => 
-            array (
-                0 => __DIR__ . '/..' . '/illuminate/filesystem',
-            ),
-            'Illuminate\\Events' => 
-            array (
-                0 => __DIR__ . '/..' . '/illuminate/events',
-            ),
-            'Illuminate\\Database' => 
-            array (
-                0 => __DIR__ . '/..' . '/illuminate/database',
-            ),
-            'Illuminate\\Container' => 
-            array (
-                0 => __DIR__ . '/..' . '/illuminate/container',
-            ),
-            'Illuminate\\Console' => 
-            array (
-                0 => __DIR__ . '/..' . '/illuminate/console',
-            ),
-            'Illuminate\\Config' => 
-            array (
-                0 => __DIR__ . '/..' . '/illuminate/config',
             ),
         ),
     );
@@ -147,7 +47,6 @@ class ComposerStaticInit933cad3110a53c93042dc00e51b152ea
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit933cad3110a53c93042dc00e51b152ea::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit933cad3110a53c93042dc00e51b152ea::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInit933cad3110a53c93042dc00e51b152ea::$fallbackDirsPsr4;
             $loader->prefixesPsr0 = ComposerStaticInit933cad3110a53c93042dc00e51b152ea::$prefixesPsr0;
 
         }, null, ClassLoader::class);

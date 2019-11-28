@@ -1,5 +1,5 @@
 {
-  "name": "ds1818s/m3",
+  "name": "ds1818s/M2",
   "description": "description_text",
   "minimum-stability": "stable",
   "license": "proprietary",
@@ -10,8 +10,6 @@
     }
   ],
   "require": {
-    "vlucas/phpdotenv": "3.5.x-dev",
-    "symfony/console": "2.5.x-dev",
-    "barryvdh/laravel-ide-helper": "1.11.x-dev"
+    "vlucas/phpdotenv": "3.5.x-dev"
   }
 }
