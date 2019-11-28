@@ -1,0 +1,17 @@
+{
+  "name": "ds1818s/m3",
+  "description": "description_text",
+  "minimum-stability": "stable",
+  "license": "proprietary",
+  "authors": [
+    {
+      "name": "Dominik Schmitt",
+      "email": "Dominik.Schmitt@alumni.fh-aachen.de"
+    }
+  ],
+  "require": {
+    "vlucas/phpdotenv": "3.5.x-dev",
+    "symfony/console": "2.5.x-dev",
+    "barryvdh/laravel-ide-helper": "1.11.x-dev"
+  }
+}

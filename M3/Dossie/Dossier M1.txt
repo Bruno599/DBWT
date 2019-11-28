@@ -1,0 +1,7 @@
+Dossier M1:
+- mit statischem HTML müsste man für jede Mahlzeit eine eigene HTML-Datei erstellen auf der die Details der einzelen Gerichte aufgelistet wären
+- Der Aufwand wäre hier für 8 mal so groß wie für eine einzelnen Seite
+- Jeder der Detail-links unter den Bildern würde dann zu einer eigene HTML-Datei führen.
+- Besser: dynamisches ertsellen der Seiten in Verbindung mit PHP und einer dahinter liegenden Datenbank.
+
+

@@ -87,7 +87,7 @@
   <component name="PropertiesComponent">
     <property name="DatabaseDriversLRU" value="mariadb" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../M3" />
     <property name="node.js.detected.package.eslint" value="true" />
     <property name="node.js.detected.package.tslint" value="true" />
     <property name="node.js.path.for.package.eslint" value="project" />
@@ -166,6 +166,8 @@
       <updated>1573635900282</updated>
       <workItem from="1573635901438" duration="5251000" />
       <workItem from="1573753406391" duration="66922000" />
+      <workItem from="1574630689670" duration="49000" />
+      <workItem from="1574677248515" duration="2962000" />
     </task>
     <servers />
   </component>

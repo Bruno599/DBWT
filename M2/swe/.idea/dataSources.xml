@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
+    <data-source source="LOCAL" name="WH_swe19-d1_etechnik@LBITV-RTFM.dvz.fh.aachen.de" uuid="e0f692e4-7d51-475f-ac11-ef27944b7cb4">
+      <driver-ref>mariadb</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.mariadb.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mariadb://LBITV-RTFM.dvz.fh.aachen.de:3306/WH_swe19-d1_etechnik</jdbc-url>
+    </data-source>
+  </component>
+</project>
