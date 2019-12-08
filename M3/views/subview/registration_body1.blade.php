@@ -1,0 +1,80 @@
+<form  method="post" action="Registration.php">
+    <fieldset>
+    <div class="container">
+        <div class="row mt-2">
+            <div class="col">
+                <h3>Ihre Registrierung</h3>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-2">
+                <a>Nickname:</a>
+            </div>
+            <div class="col-3">
+                <input type="text" value="@if(isset($_POST['nickname'])){{$_POST['nickname']}}@endif" name="nickname" required>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-2">
+                <a>Password:</a>
+            </div>
+            <div class="col-3">
+                <input type="password" name="passwort" required >
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-2">
+
+            </div>
+            <div class="col">
+                <a> Das Passwort muss mindestestn 10 Zeichen lang sein und mindestens eine Ziffer und ein Sonderzeichen enthalten.</a>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-2">
+                <a>Verify Password:</a>
+            </div>
+            <div class="col-3">
+                <input type="password" name="passwort_verify" required>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-2">
+
+            </div>
+            <div class="col">
+                <a> Hier müssen Sie Ihr Passwort wiederholen.</a>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-2">
+                <a>Was tun Sie?:</a>
+            </div>
+            <div class="col-3">
+                <input type="checkbox" name="role" value="Gast" required>Ich bin Gast
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-2">
+            </div>
+            <div class="col-3">
+                <input type="checkbox" name="role" value="Student">Ich Student an der FH
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-2">
+            </div>
+            <div class="col-3">
+                <input type="checkbox" name="role" value="Mitarbeiter">Ich Arbeite an der FH
+            </div>
+        </div>
+        <div class="row mt-5">
+            <div class="col text-center">
+                <button type="submit">Registrierung fortsetzen</button>
+            </div>
+        </div>
+    </div>
+    </fieldset>
+</form>
+
+

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+ <meta charset="UTF-8">
+ <title>Registration.php</title>
+ <link href="css/bootstrap.css" rel="stylesheet">
+ <link href="css/design.css" rel="stylesheet">
+</head>
+<body>
+
+<?php echo $this->runChild('navbaroben'); ?>
+<?php echo $this->runChild('subview\registration_body_error'); ?>
+<?php if($display_reg == 0): ?>
+ <?php echo $this->runChild('subview\registration_body1'); ?>
+<?php elseif($display_reg == 1): ?>
+ <?php echo $this->runChild('subview\registration_body2'); ?>
+<?php elseif(display_reg == 2): ?>
+ <?php echo $this->runChild('subview\registration_body3'); ?>
+<?php endif; ?>
+
+<?php echo $this->runChild('navbarunten'); ?>
+</body>
+</html>

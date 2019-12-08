@@ -9,7 +9,7 @@
                     <a class="fh_color" href="">Login</a>
                 </div>
                 <div class="col-auto border-left border-dark text-center pr-2 pl-2">
-                    <a class="fh_color" href="">Registrieren</a>
+                    <a class="fh_color" href="Registration.php">Registrieren</a>
                 </div>
                 <div class="col-auto border-left border-dark text-center pr-2 pl-2">
                     <?php
@@ -35,7 +35,11 @@
 
                 </div>
                 <div class="col ">
-
+                        <?php
+                            if(isset($_SESSION['aktive'])){
+                                echo $_SESSION['vorname'].' '.$_SESSION['nachname'].' '.$_SESSION['role'];
+                            }
+                    ?>
                 </div>
             </div>
         </div>

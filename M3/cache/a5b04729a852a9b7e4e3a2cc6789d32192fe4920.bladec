@@ -1,0 +1,71 @@
+
+<form method="post" action="Registration.php">
+ <fieldset>
+ <input type="hidden" value="<?php echo static::e($_POST['role']); ?>" name="role">
+ <input type="hidden" value="<?php echo static::e($_POST['nickname']); ?>" name="nickname">
+ <input type="hidden" value="<?php echo static::e($_POST['passwort']); ?>" name="passwort">
+ <div class="container">
+ <div class="row mt-2">
+ <div class="col">
+ <h3>Ihre Benutzerdaten</h3>
+ </div>
+ </div>
+ <div class="row mt-2">
+ <div class="col-2">
+ <a>Vorname:</a>
+ </div>
+ <div class="col-3">
+ <input type="text" name="vorname">
+ </div>
+ </div>
+ <div class="row mt-2">
+ <div class="col-2">
+ <a>Nachname:</a>
+ </div>
+ <div class="col-3">
+ <input type="text" name="nachname">
+ </div>
+ </div>
+ <div class="row mt-2">
+ <div class="col-2">
+ <a>E-MAIL Adresse:</a>
+ </div>
+ <div class="col-3">
+ <input type="email" name="e_mail">
+ </div>
+ <div class="col-2">
+
+ </div>
+ <div>
+
+ </div>
+ </div>
+ <div class="row mt-2">
+ <div class="col-2">
+ <a> Geburtsdatum:</a>
+ </div>
+ <div class="col-3">
+ <input type="date" name="geburtsdatum">
+ </div>
+ </div>
+ </div>
+ </fieldset>
+ <?php if($_POST['role'] == 'Gast'): ?>
+ <?php echo $this->runChild('subview\registration_body2_Gast'); ?>
+ <?php elseif($_POST['role'] == 'Student'): ?>
+ <?php echo $this->runChild('subview\registration_body2_Student'); ?>
+ <?php elseif($_POST['role'] == 'Mitarbeiter'): ?>
+ <?php echo $this->runChild('subview\registration_body2_Mitarbeiter'); ?>
+ <?php endif; ?>
+ <fieldset>
+ <div class="container">
+ <div class="row mt-5">
+ <div class="col">
+ <button type="submit">Registrierung abschließen</button>
+ </div>
+ </div>
+ </div>
+ </fieldset>
+</form>
+
+

@@ -1,81 +1,64 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <title>Zutaten.php</title>
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/design.css" rel="stylesheet">
-    <?php
-    include ('snippets/mysqlconnect.php')
-    ?>
-</head>
-<body>
 <?php
-include ('snippets/navbaroben.php')
-?>
+require_once "controller/zutatenController.php";
+
+$controller = new Emensa\Controller\ZutatenController();
+$controller->zutaten();
+
+/*
+ *	BladeOne Viewengine aufsetzen
 
 
-<div class="container mt-4">
-    <div class="row mt-2">
-        <div class="col-12 float-md-none">
-            <?php
-            $query = 'SELECT COUNT(ID) as count FROM Zutaten;';
-            $result = mysqli_query($remoteConnection, $query);
-            $count= mysqli_fetch_assoc($result);
-            echo '<a><h2>'.'('.$count['count'].')'.' Zutaten</h2></a>';
-            ?>
-        </div>
-    </div>
-    <div class="border-dark border mt-4">
-        <table class="table table-striped table-hover">
-            <?php
+use eftec\bladeone\BladeOne;
 
-            $query = 'SELECT Name,Bio,Vegetarisch,Vegan,Glutenfrei FROM Zutaten ORDER BY bio DESC ,Name ASC'; // Ihre SQL Query aus HeidiSQL
+$views = __DIR__ . '/views';
+$cache = __DIR__ . '/cache';
+$blade = new BladeOne($views,$cache,BladeOne::MODE_AUTO);
 
-            if ($result = mysqli_query($remoteConnection, $query))
-            {
-                echo'<thead>';
-                echo'<tr class="">';
-                echo'<th scope="col" class="w-auto">'.'<a class="m-1">'.'Zutaten'.'</a>'.'</th>';
-                echo'<th scope="col" class="w-auto">'.'<a class="m-1">'.'Bio?'.'</a>'.'</th>';
-                echo'<th scope="col" class="w-auto">'.'<a class="m-1">'.'Vegan?'.'</a>'.'</th>';
-                echo'<th scope="col" class="w-auto">'.'<a class="m-1">'.'Vegetarisch?'.'</a>'.'</th>';
-                echo'<th scope="col" class="w-auto">'.'<a class="m-1">'.'Glutenfrei?'.'</a>'.'</th>';
-                echo'</tr>';
-                echo'</thead>';
-                echo '<tbody>';
-                while ($row = mysqli_fetch_assoc($result))
-                {
-                    echo'<tr>';
 
-                    echo    '<td>
-                            <form action="http://www.google.de/search" target="_blank" method="get">
-                            <input class="btn btn-link" type="submit" name="q"  value="'.htmlspecialchars($row['Name']).'" data-toggle="tooltip" title="Suchen Sie nach '.htmlspecialchars($row['Name']).' im Web">
-                            </form>
-                            </td>';
-                   if( $row['Bio']){echo '<td><img class="img symbol float-md-left ml-2" src="button/svgs/regular/check-circle.svg" alt="fehler"></td>';}else {echo '<td><img class="img symbol float-md-left ml-2" src="button/svgs/regular/circle.svg" alt="fehler"></td>';}
-                   if( $row['Vegan']){echo '<td><img class="img symbol float-md-left ml-2" src="button/svgs/regular/check-circle.svg" alt="fehler"></td>';}else {echo '<td><img class="img symbol float-md-left ml-2" src="button/svgs/regular/circle.svg" alt="fehler"></td>';}
-                   if( $row['Vegetarisch']){echo '<td><img class="img symbol float-md-left ml-2" src="button/svgs/regular/check-circle.svg" alt="fehler"></td>';}else {echo '<td><img class="img symbol float-md-left ml-2" src="button/svgs/regular/circle.svg" alt="fehler"></td>';}
-                   if( $row['Glutenfrei']){echo '<td><img class="img symbol float-md-left ml-2" src="button/svgs/regular/check-circle.svg" alt="fehler"></td>';}else {echo '<td><img class="img symbol float-md-left ml-2 regular" src="button/svgs/regular/circle.svg" alt="fehler"></td>';}
-
-                   echo '</tr>';
-                }
-                echo '</tbody>';
-            }
-            //mysqli_close($remoteConnection);
-            ?>
-
-        </table>
-    </div>
-</div>
+ * Daten vorbereiten (das sind später die Models),
+ * d.h. die Queries an die DB senden und in Arrays
+ * oder Objekten speichern, damit sie an die Views
+ * übergeben werden können
 
 
 
+$query = 'SELECT COUNT(ID) as count FROM Zutaten;';
+$result = mysqli_query($remoteConnection, $query);
+$count= mysqli_fetch_assoc($result);
 
-<?php
+
+include('snippets/mysqlconnect.php');
+
+$query2 = 'SELECT COUNT(ID) as anzahl FROM Zutaten;';
+$result2 = mysqli_query($remoteConnection, $query2);
+$count = mysqli_fetch_assoc($result2);
+
+//echo $count;
+
+$zutaten = array();
+
+$query = "SELECT Name,Bio,Vegetarisch,Vegan,Glutenfrei FROM Zutaten ORDER BY bio DESC ,Name ASC";
+$result = mysqli_query($remoteConnection, $query);
+while($row = mysqli_fetch_assoc($result)){
+    //$zutaten[] = $row;
+    array_push($zutaten, array("Name" => $row['Name'], "Bio" => $row['Bio'],
+        "Vegetarisch" => $row['Vegetarisch'], "Vegan" => $row['Vegan'], "Glutenfrei" => $row['Glutenfrei']));
+}
+
+foreach ($array as $arra)
+{
+    echo $arra['Name'];
+    echo $arra['Bio'];
+}
+
+$title = "Zutaten";
+
+//include ('snippets/navbaroben.php');
+
+echo $blade->run("zutaten",array("zutaten"=>$zutaten, "anzahl" => "$count[anzahl]"));
+
+//include ('snippets/navbarunten.php');
+
 mysqli_close($remoteConnection);
-include ('snippets/navbarunten.php')
-?>
 
-</body>
-</html>
+*/

@@ -328,6 +328,12 @@ INSERT INTO Preise(MahlzeitID, Jahr, Gastpreis, `Studentpreis`, `MA-Preis`)
 -- INSERT INTO MahlzeitenHabenBilder(ID_M, ID_B) VALUES ((SELECT M.ID FROM Mahlzeiten M WHERE M.Name = 'Currywurst'),(SELECT B.ID FROM Bilder B WHERE B.Titel = 'Currywurst'));
 
 
+create view Nutzerrollen AS select B.Nummer, IF(B.Nummer = G.Nummer, 'Gast' ,IF(B.Nummer = M.Nummer, 'Mitarbeiter',
+    IF(B.Nummer = S.Nummer, 'Student', NULL))) AS Rolle From Benutzer B
+        left Join Gaeste G on B.Nummer = G.Nummer
+        left join `FH Angehoerige` `F A` on B.Nummer = `F A`.Nummer
+        left join Mitarbeiter M on `F A`.Nummer = M.Nummer
+        left join Studenten S on `F A`.Nummer = S.Nummer ;
 
 
 

@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+ <meta charset="UTF-8">
+ <title>Produkte.php</title>
+ <link href="css/bootstrap.css" rel="stylesheet">
+ <link href="css/design.css" rel="stylesheet">
+ <?php
+ include ('snippets/mysqlconnect.php')
+ ?>
+</head>
+<body>
+<?php echo $this->runChild('navbaroben'); ?>
+
+<div class="container ">
+ <div class="row m-4">
+ <div class="col-2 ml-3">
+ </div>
+ <div class="col text-left ">
+ <h2>Verfügbare Speisen (<?php echo static::e($array2); ?>)</h2>
+ </div>
+ </div>
+ <div class="row m-2">
+ <div class="col-2 border m-2 border-dark" id="speise_filtern">
+ <form method="post" action="Produkte.php?limit=4">
+ <fieldset>
+ <legend class="text-nowrap text-hide">Speisenliste filter</legend>
+ <p class="on_line text-center">Speisenliste filter</p>
+ <select class="w-100 mb-5 mt-5" name="kategorien">
+ <option value="-1">Alle zeigen</option>';
+<?php $__currentLoopData = $kat; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $element): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?> {
+ <?php if($element['hatKategorie'] == NULL): ?>
+ <optgroup label="<?php echo static::e($element['Bezeichnung']); ?>">
+ <?php $__currentLoopData = $kat; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $element2): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?> {
+ <?php if($element['ID'] == $element2['hatKategorie']): ?>
+ <?php if($variables['kategorien'] == $element2['ID']): ?>
+ <option selected value="<?php echo static::e($element2['ID']); ?>"><?php echo static::e($element2['Bezeichnung']); ?></option>
+ <?php else: ?>
+ <option  value="<?php echo static::e($element2['ID']); ?>"><?php echo static::e($element2['Bezeichnung']); ?></option>
+ <?php endif; ?>
+
+ <?php endif; ?>
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ </optgroup>
+ <?php endif; ?>
+<?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+
+
+
+</select>
+<?php if($variables['avail'] == true): ?>
+ <input type="checkbox" class="m-2" name="avail" checked value="1"> nur verfügbar
+<?php else: ?>
+ <input type="checkbox" class="m-2" name="avail" value="1" > nur verfügbar
+<?php endif; ?>
+
+<?php if($variables['vegetarisch'] == true): ?>
+ <input type="checkbox" class="m-2" name="vegetarisch" value="1" checked > nur vegetarisch
+<?php else: ?>
+ <input type="checkbox" class="m-2" name="vegetarisch" value="1"> nur vegetarisch
+<?php endif; ?>
+
+<?php if($variables['vegan'] == true): ?>
+ <input type="checkbox" class="m-2" name="vegan" checked value="1"> nur vegan
+<?php else: ?>
+ <input type="checkbox" class="m-2" name="vegan" value="1"> nur vegan
+<?php endif; ?>
+
+
+
+
+ <button type="submit" class="mt-5">Speisen filtern</button>
+ </fieldset>
+ </form>
+
+ </div>
+
+ <div class="col" id="body_produkte">
+
+
+<div class="row text-center">
+<?php if(empty($array)): ?>
+ <a>nichts gefunden</a>
+ <?php else: ?>
+ <?php $__currentLoopData = $array; $this->addLoop($__currentLoopData); foreach($__currentLoopData as $arra): $this->incrementLoopIndices(); $loop = $this->getFirstLoop(); ?>
+
+
+ <?php if($arra['Verfügbar']): ?>
+
+ <div class="col-3 mb-2 mt-2 p-0">
+ <div class="col "><img class="img mw-100 preview" alt="platzhalter" src="data:image/jpeg;base64,<?php echo static::e($arra['Binärdaten']); ?>"></div>
+ <div class="col "><a><?php echo static::e($arra['Name']); ?></a></div>
+ <div class="col "><a class="fh_color" href="Detail.php?id=<?php echo static::e($arra['ID']); ?>"> Details</a></div>
+ </div>
+
+ <?php else: ?>
+
+ <div class="col-3 mb-2 mt-2 p-0 passdout">
+ <div class="col"><img class="img mw-100 preview" alt="platzhalter" src="data:image/jpeg;base64,<?php echo static::e($arra['Binärdaten']); ?>"></div>
+ <div class="col"><a><?php echo static::e($arra['Name']); ?></a></div>
+ <div class="col "><a class="fh_color" > Vergriffen</a></div>
+ </div>
+ <?php endif; ?>
+
+ <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
+ <?php endif; ?>
+
+</div>
+
+</div>
+ </div>
+</div>
+
+<?php echo $this->runChild('navbarunten'); ?>
+
+</body>
+</html>

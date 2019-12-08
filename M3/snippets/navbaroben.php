@@ -21,7 +21,7 @@
                         echo "<a>Mahlzeiten</a>";
                     }
                     else {
-                        echo"<a class='fh_color' href='Produkte.php?limit=4&avail=0'>Mahlzeiten</a>";
+                        echo"<a class='fh_color' href='Produkte.php?limit=4'>Mahlzeiten</a>";
                     }
                     ?>
                 </div>

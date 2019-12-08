@@ -1,22 +1,18 @@
-<!DOCTYPE html>
-<html lang="de">
-<head>
-    <meta charset="UTF-8">
-    <title>Produkte.php</title>
-    <link href="css/bootstrap.css" rel="stylesheet">
-    <link href="css/design.css" rel="stylesheet">
-    <?php
-    include ('snippets/mysqlconnect.php')
-    ?>
-</head>
-<body>
-
 <?php
-include ('snippets/navbaroben.php')
-?>
+session_start();
+require "vendor/autoload.php";
+use eftec\bladeone\BladeOne;
 
-<!-- #00b5ad  Farbcode der Links-->
-<?php
+$views = __DIR__ . '/views';
+$cache = __DIR__ . '/cache';
+$blade = new BladeOne($views,$cache,BladeOne::MODE_AUTO);
+
+
+//@section('navbaroben');
+include ('snippets/mysqlconnect.php');
+
+/* #00b5ad  Farbcode der Links
+
 
 if(isset($_POST["avail"]))
 {
@@ -26,9 +22,9 @@ if(isset($_POST["avail"]))
 }
 ;
 
-//$avail = $_POST["avail"];
+
 if(isset($_POST["avail"])) {
-    if($_POST["limit"] > 0) {
+    if($limit1 > 0) {
         $query="select ID, Name, Verfügbar FROM Mahlzeiten WHERE Verfügbar = true LIMIT $limit1";
     }
     else {
@@ -36,7 +32,7 @@ if(isset($_POST["avail"])) {
         }
 }
 else {
-    if($_POST["limit"] > 0) {
+    if($limit1 > 0) {
         $query="select ID, Name, Verfügbar FROM Mahlzeiten LIMIT $limit1";
     }
     else {
@@ -45,8 +41,148 @@ else {
 }
 
 $avail = "Verfügbar = true";
-$limit2 = "";
+*/
+/*
+$query_begin = "select M.ID, M.Name, M.Verfügbar, M.inKategorie, B.Binärdaten FROM Mahlzeiten M ";
+$bilder1 = "LEFT JOIN MahlzeitenHabenBilder MHB on M.ID = MHB.ID_M LEFT JOIN Bilder B on MHB.ID_B = B.ID ";
 
+if(isset($_GET['limit']))
+{
+    $limit1 = "ORDER BY M.Name ASC LIMIT ".$_GET['limit'];
+}
+else
+{
+    $limit1 = "";
+}
+
+if (isset($_POST['kategorien']) || isset($_POST['vegan']) || isset($_POST['vegetraisch']) || isset($_POST['gluten']) || isset($_POST['avail'])){
+    $where = "WHERE M.ID != 0 ";
+}else{
+    $where = "";
+}
+
+if (isset($_POST['avail'])) {
+    $avail1 = "AND M.Verfügbar = true ";
+}else{
+    $avail1 = "";
+}
+
+if(isset($_POST['kategorien']) && $_POST['kategorien'] != 'Alle zeigen')
+{
+    $kategorie1 = "LEFT JOIN Kategorien K ON K.ID = M.inKategorie ";
+    $kategorie2 = " AND K.ID = (Select ID From Kategorien Where Kategorien.Bezeichnung = '".$_POST['kategorien']."') ";
+}
+else
+{
+    $kategorie1 = "";
+    $kategorie2 = "";
+}
+
+if(isset($_POST['vegan']) || isset($_POST['vegetraisch']) || isset($_POST['gluten'])){
+    $Zutaten1 = "LEFT JOIN MahlzeitenEnthaltenZutaten MEZ on M.ID = MEZ.ID_M LEFT JOIN Zutaten Z on MEZ.ID_Z = Z.ID ";
+}
+else{
+    $Zutaten1 = "";
+}
+
+if (isset($_POST['vegan'])) {
+    $Zutaten2 = "AND Z.Vegan = 'true' ";
+}
+else {
+    $Zutaten2 = "";
+}
+
+if (isset($_POST['vegetarisch'])) {
+    $Zutaten3 = " AND Z.Vegetarisch = 'true' ";
+}
+else {
+    $Zutaten3 = "";
+}
+
+if(isset($_POST['gluten'])) {
+    $Zutaten4 = " AND Z.Gluten = 'true' ";
+}
+else{
+    $Zutaten4 = "";
+}
+
+$query = $query_begin . $bilder1 . $kategorie1 . $Zutaten1 . $where . $kategorie2 . $Zutaten2 . $Zutaten3 .$Zutaten4 . $avail1 . $limit1;
+
+echo $query;
+*/
+/*
+if(!isset($_GET['avail'])) {
+    $_POST['avail'] = '\'%\'';
+}
+if(!isset($_GET['limit'])) {
+    $_GET['limit'] = 8;
+}
+if(!isset($_GET['kategorien']) || $_GET['kategorien'] == "") {
+    $_POST['kategorien'] = '\'%\'';
+}
+
+if(isset($_GET['vegan']) && $_GET['vegan'] == 1 && !isset($_GET['vegetarisch'])) {
+    $indexName = "VeganIndex";
+    $index = 0;
+} else if(isset($_GET['vegetarisch']) && $_GET['vegetarisch'] == 1 && !isset($_GET['vegan'])) {
+    $indexName = "VeggieIndex";
+    $index = 0;
+} else if(isset($_GET['vegan']) && $_GET['vegan'] == 1 && isset($_GET['vegetarisch']) && $_GET['vegetarisch'] == 1) {
+    $indexName = "VeganIndex";
+    $index = 0;
+} else {
+    $indexName = "VeggieIndex";
+    $index = '\'%\'';
+}
+$query = 'SELECT m.ID, m.Name, m.inKategorie, m.Verfügbar, 
+                                                            (COUNT(z.ID) - SUM(z.Vegan)) AS VeganIndex, 
+                                                            (COUNT(z.ID) - SUM(z.Vegetarisch)) AS VeggieIndex, 
+                                                            b.ID AS BildID, b.`Alt-Text`, b.Titel, b.Binärdaten
+                                                            FROM Mahlzeiten AS m
+                                                            LEFT JOIN MahlzeitenEnthaltenZutaten MEZ ON m.ID = MEZ.ID_M
+                                                            LEFT JOIN Zutaten z on MEZ.ID_Z = z.ID
+                                                            LEFT JOIN MahlzeitenHabenBilder MHB ON m.ID = MHB.ID_M
+                                                            LEFT JOIN Bilder AS b ON MHB.ID_B = b.ID
+                                                            WHERE b.Titel LIKE \'%\' AND m.Verfügbar LIKE '.$_POST['avail'].' AND m.inKategorie LIKE '.$_POST['kategorien'].'
+                                                            GROUP BY m.ID
+                                                            HAVING '.$indexName.' LIKE '.$index.'
+                                                            LIMIT '.$_GET['limit'];
+
+echo $query;
+*/
+$query = "SELECT M.ID, M.Name, M.`Verfügbar`, M.inKategorie, (COUNT(Z.ID) - SUM(Z.Vegan)) AS VeganIndex, 
+(COUNT(Z.ID) - SUM(Z.Vegetarisch)) AS VegetarischIndex, B.`Alt-Text`, B.`Binärdaten` 
+FROM Mahlzeiten M 
+LEFT JOIN MahlzeitenHabenBilder MHB ON M.ID = MHB.ID_M 
+LEFT JOIN Bilder B ON MHB.ID_B = B.ID 
+LEFT JOIN MahlzeitenEnthaltenZutaten MEZ ON M.ID = MEZ.ID_M 
+LEFT JOIN Zutaten Z on MEZ.ID_Z = Z.ID 
+WHERE B.`Alt-Text` != '0'";
+
+if (isset($_POST['avail'])) {
+    $query .= ' AND (M.`Verfügbar` = 1)';
+}
+if (isset($_POST['kategorien']) && $_POST['kategorien'] != '-1') {
+    $query .= ' AND (M.inKategorie = \''.$_POST['kategorien'].'\')';
+}
+$query .= ' GROUP BY M.ID';
+
+if (isset($_POST['vegetarisch']) && !isset($_POST['vegan'])){
+    $query .= ' HAVING (VegetarischIndex = 0)';
+}
+else if (isset($_POST['vegan']) && !isset($_POST['vegetarisch'])){
+    $query .= ' HAVING (VeganIndex = 0)';
+}
+else if (isset($_POST['vegetarisch']) && isset($_POST['vegan'])) {
+    $query .= ' HAVING (VegetarischIndex = 0) AND (VeganIndex = 0)';
+}
+$query .= ' ORDER BY M.inKategorie, M.Name';
+
+if (isset($_GET['limit'])) {
+    $query .= ' LIMIT '.$_GET['limit'];
+}
+
+echo $query;
 
 $result = mysqli_query($remoteConnection, $query);
 
@@ -54,9 +190,25 @@ $query2 ="select Kategorien.ID, Kategorien.Bezeichnung, Kategorien.hatKategorie 
 
 $result2 = mysqli_query($remoteConnection, $query2);
 
+$array = array();
+$array2 = 'Alle zeigen';
+
 while ($row2 = mysqli_fetch_assoc($result2))
 {
-    $array[] = $row2;
+    array_push($array, array("ID" => $row2['ID'], "Bezeichnung" => $row2['Bezeichnung'], "hatKategorie" => $row2['hatKategorie']));
+
+    if(isset($_POST['kategorien']) && $row2['ID'] == $_POST['kategorien'])
+    {
+        $array2 = $row2['Bezeichnung'];
+    }
+
+}
+
+$data = array();
+
+while ($row = mysqli_fetch_assoc($result))
+{
+    array_push($data, array("ID" => $row['ID'], "Name" => $row['Name'], "Verfügbar" => $row['Verfügbar'], "Binärdaten" => base64_encode($row['Binärdaten'])));
 }
 /*foreach ($array as $arra)
 {
@@ -64,91 +216,38 @@ while ($row2 = mysqli_fetch_assoc($result2))
     echo $arra['hatKategorie'];
 }
 */
+$variables = array();
 
-echo
-'<div class="container ">
-    <div class="row m-4">
-        <div class="col-2 ml-3">
-        </div>
-        <div class="col text-left ">
-            <h2>Verfügbare Speisen (Bestseller)</h2>
-        </div>
-    </div>
-    <div class="row m-2">
-        <div class="col-2 border m-2 border-dark" id="speise_filtern">
-           <form method="post">
-               <fieldset>
-                   <legend class="text-nowrap text-hide">Speisenliste filter</legend>
-                   <p class="on_line text-center">Speisenliste filter</p>
-                   <select class="w-100 mb-5 mt-5" name="kategorien">
-                   <option>Alle zeigen</option>';
-                    foreach ($array as $element) {
-                        if($element['hatKategorie'] == NULL) {
-                            echo '<optgroup label="'.$element['Bezeichnung'].'">';
-                            foreach ($array as $element2) {
-                                if ($element['ID'] == $element2['hatKategorie']) {
-                                    if($_POST['kategorien'] == $element2['Bezeichnung']) {
-                                        echo '<option selected>'.$element2['Bezeichnung'].'</option>';
-                                    } else {
-                                        echo '<option>'.$element2['Bezeichnung'].'</option>';
-                                    }
-
-                                }
-                            }
-                            echo '</optgroup>';
-                        }
-                    }
-
-                       /* while ($row2 = mysqli_fetch_assoc($result2))
-                        {
-                            echo $row2['hatKategorie'];
-                            while($row2['hatKategorie'] == 1)
-                            {
-                                $ID = $row2['ID'];
-                                echo '<optgroup label="'.$row2['Beschreibung'].'">';
-                                while ($row3 = mysqli_fetch_assoc($result2))
-                                {
-                                    if($row3['hatKategorie'] = $ID)
-                                    {
-                                        echo '<option>'.$row2['Beschreibung'].'</option>';
-                                    }
-                                }
-                                echo '</optgroup>';
-                            }
-                        }
-*/
-
+//echo $_POST['avail'];
+//echo $_POST['vegetarisch'];
+//echo $_POST['vegan'];
 
                    echo '</select>';
-                   if(isset($_POST["avail"])){
-                       echo '<input type="checkbox" class="m-2" name="avail" checked> nur verfügbar';
+                   if(isset($_POST["avail"]) && $_POST["avail"] == '1'){
+                       $variables['avail'] = true;
                    } else {
-                       echo '<input type="checkbox" class="m-2" name="avail" > nur verfügbar';
+                       $variables['avail'] = false;
                    }
 
-                   if(isset($_POST['vegetarisch'])){
-                       echo '<input type="checkbox" class="m-2" name="vegetarisch" checked> nur vegetarisch';
+                   if(isset($_POST['vegetarisch'])&& $_POST["vegetarisch"] == '1'){
+                       $variables['vegetarisch'] = true;
                    } else {
-                       echo '<input type="checkbox" class="m-2" name="vegetarisch"> nur vegetarisch';
+                       $variables['vegetarisch'] = false;
                    }
 
-                   if(isset($_POST['vegan'])){
-                       echo '<input type="checkbox" class="m-2" name="vegan" checked> nur vegan';
+                   if(isset($_POST['vegan']) && $_POST["vegan"] == '1'){
+                       $variables['vegan'] = true;
                    } else {
-                       echo '<input type="checkbox" class="m-2" name="vegan"> nur vegan';
+                       $variables['vegan'] = false;
                    }
 
+                    if(isset($_POST['kategorien'])){
+                        $variables['kategorien'] = $_POST['kategorien'];
+                    } else {
+                        $variables['kategorien'] = '-1';
+                    }
 
-                   echo '<input type="hidden" name="limit" value="4">
-
-                   <button type="submit" class="mt-5">Speisen filtern</button>
-               </fieldset>
-           </form>
-        </div>
-      
-        <div class="col" id="body_produkte">';
-
-
+                   /*
 //for($j = 0;$j <= 2;$j++)
     //{
 
@@ -157,42 +256,29 @@ echo
                 //{
                     while ($row = mysqli_fetch_assoc($result)) {
 
-                        $value = $row['ID'];
+                        /*$value = $row['ID'];
                         $query1 = "SELECT Mahlzeiten.ID, B.Binärdaten FROM Mahlzeiten
                         LEFT JOIN MahlzeitenHabenBilder MHB on Mahlzeiten.ID = MHB.ID_M
                         LEFT JOIN Bilder B on MHB.ID_B = B.ID
                         WHERE Mahlzeiten.ID = $value";
                         $result1 = mysqli_query($remoteConnection, $query1);
-                        $row1 = mysqli_fetch_assoc($result1);
-                        if($row['Verfügbar'])
-                        {
+                        $row1 = mysqli_fetch_assoc($result1); // /
+                        if ($row['Verfügbar']) {
                             echo '<div class="col-3 mb-2 mt-2 p-0">
-                                    <div class="col "><img class="img mw-100 preview" alt="platzhalter" src="data:image/jpeg;base64,' . base64_encode($row1['Binärdaten']) . '"></div>
+                                    <div class="col "><img class="img mw-100 preview" alt="platzhalter" src="data:image/jpeg;base64,' . base64_encode($row['Binärdaten']) . '"></div>
                                      <div class="col "><a>' . $row['Name'] . '</a></div>
                                      <div class="col "><a class="fh_color" href="Detail.php?id=' . $row['ID'] . '"> Details</a></div>
                                     </div>';
-                        }
-                        else
-                        {
-                           echo '<div class="col-3 mb-2 mt-2 p-0 passdout">
-                                     <div class="col"><img class="img mw-100 preview" alt="platzhalter" src="data:image/jpeg;base64,' . base64_encode($row1['Binärdaten']) . '"></div>
+                        } else {
+                            echo '<div class="col-3 mb-2 mt-2 p-0 passdout">
+                                     <div class="col"><img class="img mw-100 preview" alt="platzhalter" src="data:image/jpeg;base64,' . base64_encode($row['Binärdaten']) . '"></div>
                                      <div class="col"><a>' . $row['Name'] . '</a></div>
                                      <div class="col "><a class="fh_color" > Vergriffen</a></div>
                                      </div>';
                         }
                     }
-                //}
-        echo '</div>';
+                    */
 
-   //}
+echo $blade->run("produkte",array("array"=>$data, "variables" => $variables, "kat" => $array, "array2"=> $array2));
 
-    echo '</div>
-    </div>
-</div>'
-?>
-<?php
-include ('snippets/navbarunten.php');
 mysqli_close($remoteConnection);
-?>
-</body>
-</html>
