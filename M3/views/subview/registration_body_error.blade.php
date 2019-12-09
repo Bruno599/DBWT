@@ -10,6 +10,8 @@
             <div class="col"> !{{$arr}}! </div>
         </div>
         @endforeach
+                </div>
+    </div>
+</div>
         @endif
-        </div></div>
-        </div>
+

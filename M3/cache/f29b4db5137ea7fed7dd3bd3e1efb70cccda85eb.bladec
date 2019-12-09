@@ -51,7 +51,7 @@
  <a>Was tun Sie?:</a>
  </div>
  <div class="col-3">
- <input type="checkbox" name="role" value="Gast" required>Ich bin Gast
+ <input type="checkbox" name="role" value="Gast">Ich bin Gast
  </div>
  </div>
  <div class="row mt-2">

@@ -10,6 +10,8 @@
  <div class="col"> !<?php echo static::e($arr); ?>! </div>
  </div>
  <?php endforeach; $this->popLoop(); $loop = $this->getFirstLoop(); ?>
- <?php endif; ?>
- </div></div>
  </div>
+ </div>
+</div>
+ <?php endif; ?>
+

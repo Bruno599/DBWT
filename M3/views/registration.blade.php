@@ -10,11 +10,11 @@
 
 @include ('navbaroben')
 @include ('subview\registration_body_error')
-@if($display_reg == 0)
+@if($display_reg == 1)
     @include('subview\registration_body1')
-@elseif($display_reg == 1)
-    @include('subview\registration_body2')
 @elseif($display_reg == 2)
+    @include('subview\registration_body2')
+@elseif($display_reg == 3)
     @include('subview\registration_body3')
 @endif
 @include ('navbarunten')
