@@ -14,10 +14,9 @@
  <?php echo $this->runChild('subview\registration_body1'); ?>
 <?php elseif($display_reg == 1): ?>
  <?php echo $this->runChild('subview\registration_body2'); ?>
-<?php elseif(display_reg == 2): ?>
+<?php elseif($display_reg == 2): ?>
  <?php echo $this->runChild('subview\registration_body3'); ?>
 <?php endif; ?>
-
 <?php echo $this->runChild('navbarunten'); ?>
 </body>
 </html>

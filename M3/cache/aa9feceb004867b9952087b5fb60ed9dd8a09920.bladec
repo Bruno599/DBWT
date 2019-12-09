@@ -8,7 +8,7 @@
  <a>Grund Ihres Aufenthaltes?:</a>
  </div>
  <div class="col">
- <input type="text" name="gast-grund">
+ <input type="text" name="gast-grund" value="<?php if(isset($_POST['gast-grund'])): ?><?php echo static::e($_POST['gast-grund']); ?><?php endif; ?>">
  </div>
  </div>
 </div>

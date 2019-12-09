@@ -21,7 +21,7 @@ $blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);
  */
 
     include ('snippets/mysqlconnect.php');
-    include ('login.php');
+    include('login_auth.php');
     $value = $_GET["id"];
     $mahlzeit[4] = 0;
     //echo $value;

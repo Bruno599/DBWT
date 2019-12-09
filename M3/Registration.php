@@ -68,7 +68,6 @@ else
 
             $rolle = $_POST['role'];
 
-
             mysqli_begin_transaction($remoteConnection, MYSQLI_TRANS_START_READ_WRITE);
 
             if(insertUser($remoteConnection)) {
@@ -89,21 +88,6 @@ else
             else{
                     mysqli_rollback($remoteConnection);
             }
-
-            //var_dump($Error);
-
-            /*
-                echo "<div class='container';
-
-                if ($int == 1) {
-                    echo '<div class="row"><h1>Ihre Registrierung hat geklappt!</h1></div>';
-                    echo $blade->run("registration", ["display_reg" => 3]);
-                } elseif ($int == -1) {
-                    echo '<div class="row"><h1>Ihre Registrierung hat leider nicht geklappt!</h1></div>';
-                    echo $blade->run("registration", ["display_reg" => 0]);
-                }
-            */
-            //echo $blade->run("registration", ["display_reg" => 0, "Error" => $Error]);
 
 }
 

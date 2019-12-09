@@ -14,10 +14,9 @@
     @include('subview\registration_body1')
 @elseif($display_reg == 1)
     @include('subview\registration_body2')
-@elseif(display_reg == 2)
+@elseif($display_reg == 2)
     @include('subview\registration_body3')
 @endif
-
 @include ('navbarunten')
 </body>
 </html>

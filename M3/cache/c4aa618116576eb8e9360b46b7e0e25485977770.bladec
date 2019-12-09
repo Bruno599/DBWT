@@ -5,7 +5,7 @@
  (c) <?php echo date("Y") ?> DBWT
 </div>
 <div class="col-1 pr-2 pl-2 text-right">
- <a class="fh_color" href="">Login</a>
+ <a class="fh_color" href="Login.php">Login</a>
 </div>
 <div class="col-auto border-left border-dark text-center pr-2 pl-2">
  <a class="fh_color" href="Registration.php">Registrieren</a>

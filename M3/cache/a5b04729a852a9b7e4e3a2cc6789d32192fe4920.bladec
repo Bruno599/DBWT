@@ -15,7 +15,7 @@
  <a>Vorname:</a>
  </div>
  <div class="col-3">
- <input type="text" name="vorname">
+ <input type="text" name="vorname" value="<?php if(isset($_POST['vorname'])): ?><?php echo static::e($_POST['vorname']); ?><?php endif; ?>">
  </div>
  </div>
  <div class="row mt-2">
@@ -23,7 +23,7 @@
  <a>Nachname:</a>
  </div>
  <div class="col-3">
- <input type="text" name="nachname">
+ <input type="text" name="nachname" value="<?php if(isset($_POST['nachname'])): ?><?php echo static::e($_POST['nachname']); ?><?php endif; ?>">
  </div>
  </div>
  <div class="row mt-2">
@@ -31,7 +31,7 @@
  <a>E-MAIL Adresse:</a>
  </div>
  <div class="col-3">
- <input type="email" name="e_mail">
+ <input type="email" name="e_mail" value="<?php if(isset($_POST['e_mail'])): ?><?php echo static::e($_POST['e_mail']); ?><?php endif; ?>">
  </div>
  <div class="col-2">
 
@@ -45,7 +45,7 @@
  <a> Geburtsdatum:</a>
  </div>
  <div class="col-3">
- <input type="date" name="geburtsdatum">
+ <input type="date" name="geburtsdatum" value="<?php if(isset($_POST['geburtsdatum'])): ?><?php echo static::e($_POST['geburtsdatum']); ?><?php endif; ?>">
  </div>
  </div>
  </div>
