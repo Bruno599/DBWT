@@ -68,6 +68,11 @@
                     <li class="nav-item">
                         <a class="nav-link fh_color" id="messages-tab" data-toggle="tab" href="#messages" role="tab" aria-controls="messages" aria-selected="false">Bewertung</a>
                     </li>
+                    @if(isset($_SESSION['role']) && $_SESSION['role'] == 'Student')
+                    <li class="nav-item">
+                        <a class="nav-link fh_color" id="bewertung-tab" data-toggle="tab" href="#bewertung" role="tab" aria-controls="bewertung" aria-selected="false">Bewertung hinzufügen</a>
+                    </li>
+                    @endif
                 </ul>
 
                 <div class="tab-content" >
@@ -84,37 +89,37 @@
                     <div class="tab-pane border-right border-left border-bottom tab_content_size p-2" id="messages" role="tabpanel" aria-labelledby="messages-tab"  >
                     <!--<iframe src="/Bewertung/" width="100%" height="500"><p>Fehler</p></iframe>-->
                         @if(!empty($bewertung))
-                            <div class="col-12">
-                                <div class="row">
+                            <div class="col ml-3">
+                                <div class="row mt-2">
                                     <div class="col-6">
-                                    <p> Die durchschnittliche Bewertung bei {{$size}} Kommentaren liegt bei:</p>
+                                    <p> Die durchschnittliche Bewertung bei {{$size}} Kommentaren liegt bei: {{$durchschnitt}}</p>
                                     </div>
                                     <div class="col-6">
-                                        @if($durchschnitt > 0 && $durchschnitt < 0.4)
+                                        @if($durchschnitt >= 0 && $durchschnitt <= 0.4)
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/regular/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/regular/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/regular/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/regular/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/regular/star.svg" alt="platzhalter">
-                                        @elseif($durchschnitt > 0.5 && $durchschnitt < 1.4)
+                                        @elseif($durchschnitt >= 0.5 && $durchschnitt <= 1.4)
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/solid/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/regular/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/regular/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/regular/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/regular/star.svg" alt="platzhalter">
-                                        @elseif($durchschnitt > 1.5 && $durchschnitt < 2.4)
+                                        @elseif($durchschnitt >= 1.5 && $durchschnitt <= 2.4)
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/solid/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/solid/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/regular/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/regular/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/regular/star.svg" alt="platzhalter">
-                                        @elseif($durchschnitt > 2.5 && $durchschnitt < 3.4)
+                                        @elseif($durchschnitt >= 2.5 && $durchschnitt <= 3.4)
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/solid/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/solid/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/solid/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/regular/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/regular/star.svg" alt="platzhalter">
-                                        @elseif($durchschnitt > 3.5 && $durchschnitt < 4.4)
+                                        @elseif($durchschnitt >= 3.5 && $durchschnitt <= 4.4)
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/solid/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/solid/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/solid/star.svg" alt="platzhalter">
@@ -126,7 +131,6 @@
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/solid/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/solid/star.svg" alt="platzhalter">
                                             <img class="img symbol float-md-left ml-2" src="button/svgs/solid/star.svg" alt="platzhalter">
-
                                         @endif
                                     </div>
                             </div>
@@ -135,11 +139,11 @@
 
                             <div class="row w-100 border border-dark mt-1 mb-1">
                                 <div class="col">
-                                    <div class="row w-100 mt-2">
-                                        <div class="col mt-2">
-                                            Benutzer: {{$bew->Nutzername}}
+                                    <div class="row w-100 ml-2 mt-2">
+                                        <div class="col m-2">
+                                            Benutzer:<br>{{$bew->Nutzername}}
                                         </div>
-                                        <div class="col mt-2">
+                                        <div class="col m-2">
                                             @switch($bew->Bewertung)
                                                 @case(0)
                                                 <img class="img symbol float-md-left ml-2" src="button/svgs/regular/star.svg" alt="platzhalter">
@@ -186,7 +190,7 @@
                                                 @endswitch
                                         </div>
                                     </div>
-                                    <div class="row w-100 m-2">
+                                    <div class="row w-100 mb-2 ml-2">
                                         <div class="col m-2">
                                             bewertet am:<br>{{$bew->Zeitpunkt}}
                                         </div>
@@ -202,8 +206,8 @@
                             <p>keine Bewertungen</p>
                             @endif
                         @if(isset($_SESSION['role']) && $_SESSION['role'] == 'Student')
-                        <form action="Detail.php?id={{$_GET['id']}}" method="post">
-                            @csrf
+                        <!--<form action="Detail.php?id={{$_GET['id']}}" method="post">
+
                             <fieldset class="border border-dark pl-4">
                                 <legend class="ml-4 w-auto">
                                     Mahlzeit bewerten
@@ -242,9 +246,57 @@
 
 
                             </fieldset>
-                        </form>
+                        </form>-->
                         @endif
                     </div>
+                    @if(isset($_SESSION['role']) && $_SESSION['role'] == 'Student')
+                    <div class="tab-pane border-right border-left border-bottom tab_content_size p-2" id="bewertung" role="tabpanel" aria-labelledby="bewertung-tab">
+
+                            <form action="Detail.php?id={{$_GET['id']}}" method="post">
+                                @csrf
+                                <fieldset class="border border-dark pl-4">
+                                    <legend class="ml-4 w-auto">
+                                        Mahlzeit bewerten
+                                    </legend>
+
+                                    <div class="row">
+                                        <div class="col-3 text-right m-2">Bewertung: </div>
+                                        <div class="col">
+                                            <select class="m-2" name="bewertung">
+                                                <option>0</option>
+                                                <option>1</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3 text-right m-2">Bemerkung: </div>
+                                        <div class="col">
+                                            <textarea class="m-2" id="bemerkung" name="bemerkung" cols="25" rows="5">Geben Sie eine Bemerkung ein, wenn Sie möchten...</textarea>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-3">
+
+                                        </div>
+                                        <div class="col">
+                                            <button class="m-2 btn btn-link" type="submit">Bewertung absenden</button>
+                                        </div>
+                                    </div>
+                                    <input type="hidden" name="matrikel" value="3188412">
+                                    <input type="hidden" name="benutzerID" value="{{$_SESSION['benutzerID']}}">
+                                    <input type="hidden" name="mahlzeitID" value="{{$_GET['id']}}">
+
+
+                                </fieldset>
+                            </form>
+
+                    </div>
+
+                    @endif
 
                 </div>
 

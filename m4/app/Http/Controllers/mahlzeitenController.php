@@ -22,7 +22,7 @@ class mahlzeitenController extends Controller
         LEFT JOIN MahlzeitenHabenBilder MHB ON M.ID = MHB.ID_M 
         LEFT JOIN Bilder B ON MHB.ID_B = B.ID 
         LEFT JOIN MahlzeitenEnthaltenZutaten MEZ ON M.ID = MEZ.ID_M 
-        LEFT JOIN Zutaten Z on MEZ.ID_Z = Z.ID 
+        LEFT JOIN Zutaten Z on MEZ.ID_Z = Z.ID
         WHERE B.`Alt-Text` != '0'";
 
         if (isset($_POST['avail'])) {
@@ -60,8 +60,25 @@ class mahlzeitenController extends Controller
         $result2 = DB::select($query2);
         //$result2 = mysqli_query($remoteConnection, $query2);
 
-        $array = array();
         $array2 = 'Alle zeigen';
+
+        if(isset($_POST['kategorien'])) {
+            foreach ($result2 as $item) {
+
+                if ($item->ID == $_POST['kategorien']) {
+
+                    $array2 = $item->Bezeichnung;
+                }
+            }
+        }
+        $array = array();
+        //$array2 = 'Alle zeigen';
+        /*if(isset($_POST['kategorien']) && $_POST['kategorien'] > 0) {
+            $array2 = $result[0]->Bezeichnung;
+            //echo $_POST['kategorien'];
+        }else {
+            $array2 = 'Alle zeigen';
+        }*/
         //var_dump($result2);
         $count = 0;
 /*

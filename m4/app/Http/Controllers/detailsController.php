@@ -94,7 +94,7 @@ class detailsController extends Controller
     public function show($display = 0){
         //session_destroy();
 
-        if(!empty($_POST['bewertung'])){
+        if(isset($_POST['bewertung'])){
             echo 'test';
             bewertungsController::insert($_POST['mahlzeitID'], $_POST['benutzerID'], $_POST['bewertung'], $_POST['bemerkung']);
         }
@@ -102,7 +102,7 @@ class detailsController extends Controller
         if(!empty($_POST['benutzer'])){
 
             $display =  $this->login($_POST['benutzer'], $_POST['passwort']);
-            echo $display.'!!!!!!!!!!!!!!!!!';
+            //echo $display.'!!!!!!!!!!!!!!!!!';
         }else{
             if(isset($_POST['logout'])){
                 $logout = $_POST['logout'];
@@ -189,7 +189,7 @@ class detailsController extends Controller
 
 
         //echo $blade->run("details",array("refresh"=>$refresh, "mahlzeit" => $mahlzeit, "display2"=> $display, "zutaten" => $row2));
-        return view('pages.details', ["refresh"=>$refresh, "mahlzeit" => $mahlzeit, "zutaten" => $result2, "display2"=> $display, "bewertung" => $arrayresult, "size" => $size, "durchschnitt" => $durchschnitt]);
+        return view('pages.details', ["refresh"=>$refresh, "mahlzeit" => $mahlzeit, "zutaten" => $result2, "display2"=> $display, "bewertung" => $arrayresult, "size" => $size, "durchschnitt" => round($durchschnitt,1)]);
 
     }
 }

@@ -23,6 +23,7 @@
     <div class="row m-2">
         <div class="col-2 border m-2 border-dark" id="speise_filtern">
            <form method="post" action="Produkte.php?limit=4">
+               @csrf
                <fieldset>
                    <legend class="text-nowrap text-hide">Speisenliste filter</legend>
                    <p class="on_line text-center">Speisenliste filter</p>

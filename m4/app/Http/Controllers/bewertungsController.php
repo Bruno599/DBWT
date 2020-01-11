@@ -26,7 +26,7 @@ class bewertungsController extends Controller
 
         $query = "INSERT INTO Kommentare (Bemerkung, Bewertung, GeschriebenVon, GehörtZu, Zeitpunkt) VALUES ('$bemerkung', $bewertung, $benutzerID, $mahlzeitID,now())";
         $DB = DB::insert($query);
-        echo $query;
+        //echo $query;
 
     }
 }
