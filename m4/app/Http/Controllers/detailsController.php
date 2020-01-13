@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\details;
 use Illuminate\Http\Request;
 use App\Produkt;
 use Illuminate\Support\Facades\DB;
@@ -46,9 +47,10 @@ class detailsController extends Controller
                     //$benutzer = $_POST['benutzer'];
                     //$passwort = $_POST['passwort'];
 
-                    $query4 = "select B.Nummer, B.Hash, B.Vorname, B.Nachname, NR.Rolle from Benutzer B, Nutzerrollen NR WHERE B.Nutzername = '$benutzer' AND B.Nummer = NR.Nummer";
+                    //$query4 = "select B.Nummer, B.Hash, B.Vorname, B.Nachname, NR.Rolle from Benutzer B, Nutzerrollen NR WHERE B.Nutzername = '$benutzer' AND B.Nummer = NR.Nummer";
                     //$result4 = mysqli_query($remoteConnection, $query4);
-                    $result4 = DB::select($query4);
+                    //$result4 = DB::select($query4);
+                    $result4 = details::login_check($benutzer);
                     //var_dump($result4);
 
                     if (!empty($result4)) {
@@ -62,10 +64,11 @@ class detailsController extends Controller
                             $_SESSION['aktive'] = true;
                             $_SESSION['benutzerID'] = $result4[0]->Nummer;
 
-                            $query_timestamp = "Update Benutzer B set `Letzter Login` = current_timestamp WHERE B.Nutzername = '$benutzer'";
+                            //$query_timestamp = "Update Benutzer B set `Letzter Login` = current_timestamp WHERE B.Nutzername = '$benutzer'";
                             //header("Refresh:0");
                             //mysqli_query($remoteConnection, $query_timestamp);
-                            DB::update($query_timestamp);
+                            //DB::update($query_timestamp);
+                            details::update_user($benutzer);
                             $display = 1;
                         } else {
 
@@ -155,17 +158,19 @@ class detailsController extends Controller
         //session_destroy();
         //var_dump($_SESSION);
         //var_dump($mahlzeit);
-        $query2 = "select Z.Name FROM Zutaten Z left join MahlzeitenEnthaltenZutaten MEZ on Z.ID = MEZ.ID_Z left join Mahlzeiten M on MEZ.ID_M = M.ID WHERE M.ID = '".$_GET['id']."'";
-        $result2 = DB::select($query2);
+        //$query2 = "select Z.Name FROM Zutaten Z left join MahlzeitenEnthaltenZutaten MEZ on Z.ID = MEZ.ID_Z left join Mahlzeiten M on MEZ.ID_M = M.ID WHERE M.ID = '".$_GET['id']."'";
+        //$result2 = DB::select($query2);
+        $result2 = details::get_zutaten($_GET);
         //$result2 = mysqli_query($remoteConnection,$query2);
         //$row2 = mysqli_fetch_all($result2,MYSQLI_ASSOC);
 
-        $query3 = "SELECT  K.Bemerkung, K.Bewertung, K.Zeitpunkt, B.Nutzername FROM Kommentare K
+        /*$query3 = "SELECT  K.Bemerkung, K.Bewertung, K.Zeitpunkt, B.Nutzername FROM Kommentare K
                     LEFT JOIN Studenten S on K.GeschriebenVon = S.Nummer
                     LEFT JOIN `FH Angehoerige` `F A` on S.Nummer = `F A`.Nummer
                     LEFT JOIN Benutzer B on `F A`.Nummer = B.Nummer
                     WHERE K.GehörtZu = $value ORDER BY Zeitpunkt DESC";
-        $result3 = DB::select($query3);
+        $result3 = DB::select($query3);*/
+        $result3 = details::get_comment($value);
         $size = sizeof($result3);
         $count = 0;
         $sum = 0;

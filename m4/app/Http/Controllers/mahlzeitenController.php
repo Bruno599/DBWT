@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\mahlzeiten;
 use Illuminate\Http\Request;
 use App\Produkt;
 use Illuminate\Support\Facades\DB;
@@ -15,13 +16,13 @@ class mahlzeitenController extends Controller
 
         //@section('navbaroben');
 
-
-        $query = "SELECT M.ID, M.Name, M.`Verfügbar`, M.inKategorie, (COUNT(Z.ID) - SUM(Z.Vegan)) AS VeganIndex, 
-        (COUNT(Z.ID) - SUM(Z.Vegetarisch)) AS VegetarischIndex, B.`Alt-Text`, B.`Binärdaten` 
-        FROM Mahlzeiten M 
-        LEFT JOIN MahlzeitenHabenBilder MHB ON M.ID = MHB.ID_M 
-        LEFT JOIN Bilder B ON MHB.ID_B = B.ID 
-        LEFT JOIN MahlzeitenEnthaltenZutaten MEZ ON M.ID = MEZ.ID_M 
+        /*
+        $query = "SELECT M.ID, M.Name, M.`Verfügbar`, M.inKategorie, (COUNT(Z.ID) - SUM(Z.Vegan)) AS VeganIndex,
+        (COUNT(Z.ID) - SUM(Z.Vegetarisch)) AS VegetarischIndex, B.`Alt-Text`, B.`Binärdaten`
+        FROM Mahlzeiten M
+        LEFT JOIN MahlzeitenHabenBilder MHB ON M.ID = MHB.ID_M
+        LEFT JOIN Bilder B ON MHB.ID_B = B.ID
+        LEFT JOIN MahlzeitenEnthaltenZutaten MEZ ON M.ID = MEZ.ID_M
         LEFT JOIN Zutaten Z on MEZ.ID_Z = Z.ID
         WHERE B.`Alt-Text` != '0'";
 
@@ -49,16 +50,20 @@ class mahlzeitenController extends Controller
 //echo $_GET['limit'];
 //echo $query;
 
-        $result = DB::select($query);
+        $result = DB::select($query);*/
+
+        $result = mahlzeiten::produkte($_POST,$_GET);
         //$result = mysqli_query($remoteConnection, $query);
         //var_dump($result);
 
 //$query2 ="select Kategorien.ID, Kategorien.Bezeichnung, Kategorien.hatKategorie FROM Kategorien ORDER BY Kategorien.hatKategorie ASC";
 //$query2 = "select Kategorien.ID, Kategorien.Bezeichnung, Kategorien.hatKategorie From Kategorien where Kategorien.hatKategorie is null OR Kategorien.ID in (SELECT inKategorie FROM Mahlzeiten Where Verfügbar = true) ORDER BY Kategorien.hatKategorie ASC";
-        $query2 = "select Kategorien.ID, Kategorien.Bezeichnung, Kategorien.hatKategorie From Kategorien where Kategorien.hatKategorie is null OR Kategorien.ID in (SELECT inKategorie FROM Mahlzeiten) ORDER BY Kategorien.hatKategorie ASC";
+        //$query2 = "select Kategorien.ID, Kategorien.Bezeichnung, Kategorien.hatKategorie From Kategorien where Kategorien.hatKategorie is null OR Kategorien.ID in (SELECT inKategorie FROM Mahlzeiten) ORDER BY Kategorien.hatKategorie ASC";
 
-        $result2 = DB::select($query2);
+        //$result2 = DB::select($query2);
         //$result2 = mysqli_query($remoteConnection, $query2);
+
+        $result2 = mahlzeiten::kategorien();
 
         $array2 = 'Alle zeigen';
 
@@ -94,7 +99,7 @@ class mahlzeitenController extends Controller
          echo 'test';
          var_dump($array);
 */
-        $data = $result;
+        //$data = $result;
 /*
 
         while ($row = mysqli_fetch_assoc($result)) {
@@ -139,7 +144,7 @@ class mahlzeitenController extends Controller
 
 
         //echo $blade->run("produkte", array("array" => $data, "variables" => $variables, "kat" => $array, "array2" => $array2));
-        return view('pages.produkte', ["array" => $data, "variables" => $variables, "kat" => $result2, "array2" => $array2]);
+        return view('pages.produkte', ["array" => $result, "variables" => $variables, "kat" => $result2, "array2" => $array2]);
 
         //mysqli_close($remoteConnection);
 

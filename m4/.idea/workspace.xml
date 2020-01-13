@@ -130,15 +130,15 @@
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
   </component>
   <component name="RecentsManager">
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\xampp\htdocs\DBWT\m4\resources\views\nav" />
-      <recent name="C:\xampp\htdocs\DBWT\m4\resources\views\pages" />
-      <recent name="C:\xampp\htdocs\DBWT\m4\public\old" />
-    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\xampp\htdocs\DBWT\m4\public" />
       <recent name="C:\xampp\htdocs\DBWT\m4\public\css" />
       <recent name="C:\xampp\htdocs\DBWT\m4\resources\views" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\DBWT\m4\resources\views\nav" />
+      <recent name="C:\xampp\htdocs\DBWT\m4\resources\views\pages" />
+      <recent name="C:\xampp\htdocs\DBWT\m4\public\old" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -171,7 +171,8 @@
       <updated>1578390041310</updated>
       <workItem from="1578390042880" duration="1702000" />
       <workItem from="1578432285184" duration="15042000" />
-      <workItem from="1578597897221" duration="46842000" />
+      <workItem from="1578597897221" duration="49010000" />
+      <workItem from="1578921092346" duration="4372000" />
     </task>
     <servers />
   </component>
